@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hellobeacon</string>
+    <string name="registeractivity_label">Register</string>
+    <string name="action_settings">Settings</string>
+    <string name="gym_prompt">Select Your Gym</string>
+	
+    <string-array name="gyms_array">
+        <item>Cal Poly Recreation Center</item>
+        <item>Kennedy Fitness</item>
+        <item>Athlon Fitness and Performance</item>
+    </string-array>
+    
+</resources>
