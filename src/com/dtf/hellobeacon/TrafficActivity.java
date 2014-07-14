@@ -38,7 +38,7 @@ public class TrafficActivity extends Activity{
 
 		//ranging
 		beaconManager = new BeaconManager(this);
-		context = getContext();
+		context = this;
 		RangingTask rTask = new RangingTask(context, beaconManager);
 		rTask.execute(beaconManager);
 

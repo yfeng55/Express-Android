@@ -16,7 +16,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 
 	protected final String beaconName = "estimote";
 	
-	protected Context context;
+	protected Context mContext;
 	protected BeaconManager bMan;
 	protected SharedPreferences prefs;
 
@@ -24,7 +24,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 
 	public RangingTask(Context context, BeaconManager bMan)
 	{
-		this.context = context;
+		mContext = context;
 		this.bMan = bMan;
 	}
 
@@ -38,7 +38,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 	@Override
 	protected void onPreExecute() {
 
-		Activity refToActivity = (Activity)context;
+		Activity refToActivity = (Activity)mContext;
 
 		bMan.setRangingListener(new BeaconManager.RangingListener() {
 
@@ -66,7 +66,10 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 
 	public void addVisitToUser()
 	{
-		prefs = ((Activity)context).getSharedPreferences("com.dtf.hellobeacon", 0);
+		if(mContext != null)
+		{
+		Log.d("context", "tracking beacons mang - context not null");
+		prefs = mContext.getSharedPreferences("com.dtf.hellobeacon", 0);
 		//String firstname = prefs.getString("firstName", "nobody");
 		//String lastname = prefs.getString("lastName", "nobody");
 		
@@ -75,7 +78,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 		
 		Firebase newpushref = new Firebase("https://hellobeacon.firebaseio.com/" + firstname + lastname + "/visits");
 		newpushref.setValue(1);
-
+		}
 		//get current visit value
 		
 	}
