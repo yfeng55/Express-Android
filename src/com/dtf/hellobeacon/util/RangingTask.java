@@ -12,6 +12,8 @@ import com.estimote.sdk.Region;
 
 public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 
+	protected final String beaconName = "estimote";
+	
 	protected Context context;
 	protected BeaconManager bMan;
 
@@ -49,6 +51,10 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 				for (Beacon rangedBeacon : rangedBeacons) {
 					Log.d("tracking", "tracking beacons mang");
 					Log.d("tracking", "beaconName is " + rangedBeacon.getName());
+					if(rangedBeacon.getName().equals(beaconName))
+					{
+						
+					}
 
 
 				}
