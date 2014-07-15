@@ -8,8 +8,7 @@ Yijie:
 	
 2. define user class ***
 
-3. Style the ActionBar
-	> set ActionBar text for each Activity ***
+3. Style the ActionBar ***
 	
 4. Create a TrafficActivity to display traffic patterns at a particular gym
 	> draw a histogram representing traffic data
