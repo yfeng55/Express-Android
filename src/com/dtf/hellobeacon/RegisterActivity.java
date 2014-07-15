@@ -31,7 +31,7 @@ public class RegisterActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.register);
 
 		//obtain sharedpreferences
 		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);

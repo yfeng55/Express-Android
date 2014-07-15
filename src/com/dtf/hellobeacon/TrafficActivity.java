@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
+import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dtf.hellobeacon.util.RangingTask;
@@ -22,6 +24,7 @@ public class TrafficActivity extends Activity{
 
 	private SharedPreferences prefs;
 	private String gym;
+	private TextView gymname;
 
 	BeaconManager beaconManager;
 	Context context;
@@ -31,10 +34,11 @@ public class TrafficActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.traffic);
 
-		//set titlebar label
+		//set gym name
 		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);
 		gym = prefs.getString("gym", "No Gym Selected");
-		setTitle(gym);
+		gymname = (TextView) findViewById(R.id.tv_GymName);
+		gymname.setText(gym);
 
 		//ranging
 		beaconManager = new BeaconManager(this);
@@ -42,6 +46,13 @@ public class TrafficActivity extends Activity{
 		RangingTask rTask = new RangingTask(context, beaconManager);
 		rTask.execute(beaconManager);
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
 	}
 
 	private Context getContext() {
