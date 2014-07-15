@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,23 @@ public class TrafficActivity extends Activity{
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.viewPersonalStats:
+			Intent i = new Intent(this, MyStatsActivity.class);
+			startActivity(i);
+			return true;
+		case R.id.about:
+			Intent j = new Intent(this, AboutActivity.class);
+			startActivity(j);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
 
 	private Context getContext() {
 		return null;

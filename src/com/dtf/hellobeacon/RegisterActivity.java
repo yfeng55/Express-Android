@@ -50,8 +50,6 @@ public class RegisterActivity extends Activity {
 		super.onPause();
 		finish();
 	}
-
-	
 	
 
 	public void register(View v){
