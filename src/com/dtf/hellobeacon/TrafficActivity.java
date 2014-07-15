@@ -75,12 +75,11 @@ public class TrafficActivity extends Activity{
 		}
 	}
 
-
-	private Context getContext() {
-		return null;
-	}
-
 	
+	/**
+	 * On Destroy LifeCycle Method - RangingTask is cancelled so ranginglistener stops running
+	 * and will reset to correct values when application reopened
+	 */
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -111,6 +110,9 @@ public class TrafficActivity extends Activity{
 	}
 
 
+	/**
+	 * connect to beacon service for ranging
+	 */
 	private void connectToService() {
 		getActionBar().setSubtitle("Scanning...");
 		beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
@@ -126,7 +128,10 @@ public class TrafficActivity extends Activity{
 			}
 		});
 	}
-
+	
+	/**
+	 * TODO - document this later, from estimote SDK - don't quite understand
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_ENABLE_BT) {
