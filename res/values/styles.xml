@@ -1,9 +1,6 @@
 <resources>
-
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
+	
+    <!-- BASE THEME -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
@@ -16,5 +13,29 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    
+    <!-- CUSTOM THEME -->
+    <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:background">@color/green</item>
+        <item name="android:height">55dp</item>
+        <item name="android:titleTextStyle">@style/TitleTextStyle</item>
+        <item name="android:icon">@drawable/logo</item>
+        <item name="android:displayOptions">showHome|useLogo</item>
+        
+    </style>
+    
+    <!-- Actionbar text styles -->
+    <style name="TitleTextStyle" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
 
 </resources>
