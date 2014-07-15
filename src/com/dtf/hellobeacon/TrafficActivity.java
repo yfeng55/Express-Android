@@ -22,7 +22,8 @@ public class TrafficActivity extends Activity{
 
 	private static final int REQUEST_ENABLE_BT = 0;
 	private static final Region ALL_ESTIMOTE_BEACONS_REGION = new Region("rid", null, null, null);
-
+	RangingTask rTask;
+	
 	private SharedPreferences prefs;
 	private String gym;
 	private TextView gymname;
@@ -33,6 +34,7 @@ public class TrafficActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.traffic);
 
 		//set gym name
@@ -44,8 +46,9 @@ public class TrafficActivity extends Activity{
 		//ranging
 		beaconManager = new BeaconManager(this);
 		context = this;
-		RangingTask rTask = new RangingTask(context, beaconManager);
+		rTask = new RangingTask(context, beaconManager);
 		rTask.execute(beaconManager);
+		
 
 	}
 	
@@ -77,11 +80,16 @@ public class TrafficActivity extends Activity{
 		return null;
 	}
 
+	
 	@Override
 	protected void onDestroy() {
-		beaconManager.disconnect();
 		super.onDestroy();
+		rTask.setHasEnteredAndHasRetrieved(false);
+		rTask.cancel(true);
+		Log.d("destroyed", "destroyedddd");
+		beaconManager.disconnect();
 	}
+	
 
 	@Override
 	protected void onStart() {
@@ -101,6 +109,7 @@ public class TrafficActivity extends Activity{
 			connectToService();
 		}
 	}
+
 
 	private void connectToService() {
 		getActionBar().setSubtitle("Scanning...");
