@@ -6,15 +6,24 @@
 
     <TextView
         android:id="@+id/tv_GymName"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/gray"
+        android:gravity="center"
         android:text="Gym Name" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Traffic Stats" />
+    
+    <pl.flex_it.androidplot.MultitouchPlot
+    	android:id="@+id/multitouchPlot"
+    	android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:layout_marginTop="0px"
+    	android:layout_marginLeft="0px"
+    	android:layout_marginRight="0px"
+    	title="A Simple multitouch XYPlot Example"/>
+    
 
 </LinearLayout>
