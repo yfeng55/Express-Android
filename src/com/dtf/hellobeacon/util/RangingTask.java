@@ -10,6 +10,7 @@ import android.util.Log;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+import com.estimote.sdk.Utils;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -72,8 +73,11 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 					Log.d("tracking", "tracking beacons mang");
 					Log.d("tracking", "beaconName is " + rangedBeacon.getName());
 
-						addVisitToUser();
-
+				    double distance = Utils.computeAccuracy(rangedBeacon);
+				    Log.d("tracking", "distance = " + distance);
+					
+					addVisitToUser();
+						
 
 				}
 			}
