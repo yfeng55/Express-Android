@@ -1,16 +1,22 @@
 package com.dtf.hellobeacon.util;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+<<<<<<< HEAD
 import com.estimote.sdk.Utils;
+=======
+import com.example.hellobeacon.R;
+>>>>>>> graph
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -25,8 +31,10 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 	protected SharedPreferences prefs;
 	private Boolean hasEntered = false;
 	private Boolean hasRetrievedVisits = false;
+	private SoundPool sp;
+	private int soundeffect = 0;
 	long visits;
-
+	
 
 
 	/**
@@ -39,6 +47,10 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 	{
 		mContext = context;
 		this.bMan = bMan;
+		
+		//use SoundPool for short sounds like button presses
+		sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+		soundeffect = sp.load(mContext, R.raw.beep, 0);
 	}
 
 	@Override
@@ -125,6 +137,16 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 			{
 				newpushref.setValue(visits + 1);
 				hasEntered = true;
+				
+				//show toast message that says "checked in to gymname"
+				String gymname = prefs.getString("gym", "No Gym Selected");
+				Toast.makeText(mContext, "Checked In to " + gymname, Toast.LENGTH_LONG).show();
+				
+				//play sound effect
+				if(soundeffect != 0){
+					sp.play(soundeffect, 1, 1, 0, 0, 1);
+				}
+					
 			}
 		}
 
