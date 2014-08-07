@@ -84,10 +84,10 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 
 				    double distance = Utils.computeAccuracy(rangedBeacon);
 				    Log.d("tracking", "distance = " + distance);
-					
-					addVisitToUser();
-						
-
+					if(distance < 3)
+					{
+						addVisitToUser();
+					}
 				}
 			}
 		});		
@@ -109,7 +109,9 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 			prefs = mContext.getSharedPreferences("com.dtf.hellobeacon", 0);
 			String firstname = prefs.getString("firstName", "nobody");
 			String lastname = prefs.getString("lastName", "nobody");
-
+			boolean isInGym = prefs.getBoolean("is in Gym", false);
+			if(!isInGym)
+			{
 			Firebase newpushref = new Firebase("https://hellobeacon.firebaseio.com/" + firstname + lastname + "/visits");
 
 			//get current visit value
@@ -144,6 +146,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 					sp.play(soundeffect, 1, 1, 0, 0, 1);
 				}
 					
+				}
 			}
 		}
 
