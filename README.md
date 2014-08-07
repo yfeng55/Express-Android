@@ -34,3 +34,11 @@ Misc:
 1. fix the loose object git error
 
 2. modify registration to validate credentials against a list of the gym's actual users
+
+
+BUGS
+
+===============================================
+
+- doesn't check in after installing
+

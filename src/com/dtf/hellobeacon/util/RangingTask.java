@@ -12,11 +12,8 @@ import android.widget.Toast;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
-<<<<<<< HEAD
 import com.estimote.sdk.Utils;
-=======
 import com.example.hellobeacon.R;
->>>>>>> graph
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;

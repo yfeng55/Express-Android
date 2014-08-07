@@ -28,6 +28,7 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYStepMode;
+import com.dtf.hellobeacon.util.GraphUtil;
 import com.dtf.hellobeacon.util.RangingTask;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -167,25 +168,11 @@ public class TrafficActivity extends Activity{
 	
 	private void drawGraph(){
 		MultitouchPlot plot = (MultitouchPlot) findViewById(R.id.multitouchPlot);
-
-		// set border and padding
-		plot.setBorderStyle(MultitouchPlot.BorderStyle.NONE, null, null);
-		plot.setPlotMargins(0, 20, 0, 0);
-		plot.setPlotPadding(0, 20, 0, 0);
-		plot.setGridPadding(0, 20, 60, 0);
         
-        
-        // set colors
-		plot.setBackgroundColor(Color.WHITE);
-		plot.getGraphWidget().getBackgroundPaint().setColor(Color.WHITE);
-		plot.getGraphWidget().getGridBackgroundPaint().setColor(Color.WHITE);
-        
-        // Remove legend
-		plot.getLayoutManager().remove(plot.getLegendWidget());
-		plot.getLayoutManager().remove(plot.getDomainLabelWidget());
-		plot.getLayoutManager().remove(plot.getRangeLabelWidget());
-		plot.getLayoutManager().remove(plot.getTitleWidget());
-		
+		//styling
+		GraphUtil.setBordersandPadding(plot);
+		GraphUtil.setColors(plot);
+        GraphUtil.configureLegend(plot);
 		
         // Create an array of y-values to plot:
         Number[] y_values = {30, 35, 32, 40, 38, 45, 55, 57, 67, 70, 72, 65, 55, 56, 47};
