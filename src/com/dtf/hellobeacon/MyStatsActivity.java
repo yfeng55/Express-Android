@@ -22,6 +22,7 @@ public class MyStatsActivity extends Activity{
 	private String firstname;
 	private String lastname;
 	private TextView myname;
+	private TextView mystats;
 	List<Long> visits;
 
 	@Override
@@ -35,14 +36,17 @@ public class MyStatsActivity extends Activity{
 		lastname = prefs.getString("lastName", "No Last Name");
 		
 		myname = (TextView) findViewById(R.id.tv_MyName);
-		myname.setText(firstname + " " + lastname);
+		mystats = (TextView) findViewById(R.id.tv_mystats);
+		
+		
+		myname.setText(firstname + " " + lastname + " :: PERSONAL STATS");
 		
 		visits = new ArrayList<Long>();
 		
 		
 		//get the user's visits from firebase
 		
-		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits");
+		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");
 		
 		visitsref.addValueEventListener(new ValueEventListener() {
 			
@@ -50,6 +54,12 @@ public class MyStatsActivity extends Activity{
 			public void onDataChange(DataSnapshot snapshot) {
 				//GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
 			    //List<String> messages = snapshot.getValue(t);
+				
+				String list_items = snapshot.getValue().toString();
+				
+				mystats.setText(list_items);
+				
+	            String[] values = list_items.split(",");
 			}
 
 			@Override
