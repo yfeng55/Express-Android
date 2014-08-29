@@ -59,12 +59,11 @@ public class RegisterActivity extends Activity {
 		String lastname = lastname_field.getText().toString();
 		String gym = gymselection.getSelectedItem().toString();
 		String email = email_field.getText().toString();
-		int visits = 0;
 		boolean isInGym = false;
 
-		user = new User(firstname, lastname, gym, email, visits, isInGym);
+		user = new User(firstname, lastname, gym, email, isInGym);
 
-		Firebase newpushref = new Firebase("https://hellobeacon.firebaseio.com/" + firstname + lastname);
+		Firebase newpushref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname);
 		newpushref.setValue(user);
 
 		//create a new editor for the prefs object
@@ -76,7 +75,7 @@ public class RegisterActivity extends Activity {
 		editor.putString("lastName", user.getLastName());
 		editor.putString("email", user.getEmail());
 		editor.putString("gym", user.getGym());
-		editor.putInt("visits", user.getVisits());
+		//editor.putInt("visits", user.getVisits());
 		editor.putBoolean("is in Gym", user.getInGym());
 		editor.commit();
 

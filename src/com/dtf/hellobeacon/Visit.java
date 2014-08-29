@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.text.format.DateFormat;
+import android.util.Log;
 
 public class Visit {
 	
@@ -34,6 +35,7 @@ public class Visit {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public void setLengthOfStay() {

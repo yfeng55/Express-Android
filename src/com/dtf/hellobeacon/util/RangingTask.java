@@ -9,15 +9,14 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.dtf.hellobeacon.Visit;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 import com.example.hellobeacon.R;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.firebase.client.ServerValue;
 
 public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 
@@ -27,12 +26,10 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 	protected BeaconManager bMan;
 	protected SharedPreferences prefs;
 	private Boolean hasEntered = false;
-	private Boolean hasRetrievedVisits = false;
 	private SoundPool sp;
 	private int soundeffect = 0;
 	long visits;
 	
-
 
 	/**
 	 * Constructor - context for getting reference to activity creating this RangingTask, and beaconmanager
@@ -95,9 +92,6 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 	
 
 	/**
-	 * increment visit value to firebase if 
-	 * 		- visit value has been retrieved from Database AND IF
-	 * 		- user has not already entered the gym 
 	 * TODO - find better way of telling if user has entered and exited the gym
 	 */
 	public void addVisitToUser()
@@ -110,31 +104,18 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 			String firstname = prefs.getString("firstName", "nobody");
 			String lastname = prefs.getString("lastName", "nobody");
 			boolean isInGym = prefs.getBoolean("is in Gym", false);
-			if(!isInGym)
+			
+			if(!isInGym){
+								
+			Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");
+			Firebase newpushref = visitsref.push();
+			
+			
+			if(!hasEntered)
 			{
-			Firebase newpushref = new Firebase("https://hellobeacon.firebaseio.com/" + firstname + lastname + "/visits");
-
-			//get current visit value
-			newpushref.addValueEventListener(new ValueEventListener() {
-				@Override
-				public void onDataChange(DataSnapshot snapshot) {
-					if(snapshot.getValue() != null){
-						visits = (Long) snapshot.getValue();
-						hasRetrievedVisits = true;
-						}
-					}
-					
+				//pushing a new visit to the server; the time value is the Server's TIMESTAMP attribute
+				newpushref.setValue(ServerValue.TIMESTAMP);
 				
-				@Override
-				public void onCancelled(FirebaseError error) {
-					System.err.println("Listener was cancelled");
-				}
-				
-				
-			});
-			if(hasRetrievedVisits && !hasEntered)
-			{
-				newpushref.setValue(visits + 1);
 				hasEntered = true;
 				
 				//show toast message that says "checked in to gymname"
@@ -152,9 +133,8 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 
 	}
 	
-	public void setHasEnteredAndHasRetrieved(boolean bool){
+	public void setHasEntered(boolean bool){
 		hasEntered = bool;
-		hasRetrievedVisits = bool;
 	}
 
 

@@ -102,7 +102,7 @@ public class TrafficActivity extends Activity{
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		rTask.setHasEnteredAndHasRetrieved(false);
+		rTask.setHasEntered(false);
 		rTask.cancel(true);
 		Log.d("destroyed", "destroyedddd");
 		beaconManager.disconnect();
