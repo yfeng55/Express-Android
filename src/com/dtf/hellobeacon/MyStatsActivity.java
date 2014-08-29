@@ -39,6 +39,7 @@ public class MyStatsActivity extends Activity {
 		
 		myname = (TextView) findViewById(R.id.tv_MyName);
 		mystats = (TextView) findViewById(R.id.tv_mystats);
+		mystats.setText("");
 		
 		myname.setText(firstname + " " + lastname + " :: PERSONAL STATS");
 		
@@ -58,6 +59,7 @@ public class MyStatsActivity extends Activity {
 				String list_items = snapshot.getValue().toString();
 				String[] list_values = list_items.split(",");
 								
+				int i = 1;
 				for (String s : list_values){
 					
 					String e = s.substring(s.lastIndexOf("=") + 1, s.lastIndexOf("=") + 14);
@@ -67,10 +69,10 @@ public class MyStatsActivity extends Activity {
 					Date date = new Date(Long.valueOf(e).longValue());
 					String reportdate = df.format(date);
 					
-					builder.append(reportdate + "\n");
+					builder.append("VISIT " + Integer.toString(i) + ": " + reportdate + "\n\n");
+					i++;
 				}
-				
-				
+								
 				mystats.setText(builder.toString());
 				
 				
