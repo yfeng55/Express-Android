@@ -1,29 +1,31 @@
 package com.dtf.hellobeacon;
+
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.example.hellobeacon.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 
+public class MyStatsActivity extends Activity {
 
-public class MyStatsActivity extends Activity{
-	
 	private SharedPreferences prefs;
 	private String firstname;
 	private String lastname;
 	private TextView myname;
 	private TextView mystats;
 	List<Long> visits;
+	StringBuilder builder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +40,12 @@ public class MyStatsActivity extends Activity{
 		myname = (TextView) findViewById(R.id.tv_MyName);
 		mystats = (TextView) findViewById(R.id.tv_mystats);
 		
-		
 		myname.setText(firstname + " " + lastname + " :: PERSONAL STATS");
 		
-		visits = new ArrayList<Long>();
-		
+		builder = new StringBuilder();
+		final DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
 		
 		//get the user's visits from firebase
-		
 		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");
 		
 		visitsref.addValueEventListener(new ValueEventListener() {
@@ -56,10 +56,24 @@ public class MyStatsActivity extends Activity{
 			    //List<String> messages = snapshot.getValue(t);
 				
 				String list_items = snapshot.getValue().toString();
+				String[] list_values = list_items.split(",");
+								
+				for (String s : list_values){
+					
+					String e = s.substring(s.lastIndexOf("=") + 1, s.lastIndexOf("=") + 14);
+					//e = e.replaceAll("[^\\d.]", "");
+					//timestamps.add(Long.valueOf(e).longValue());
+					
+					Date date = new Date(Long.valueOf(e).longValue());
+					String reportdate = df.format(date);
+					
+					builder.append(reportdate + "\n");
+				}
 				
-				mystats.setText(list_items);
 				
-	            String[] values = list_items.split(",");
+				mystats.setText(builder.toString());
+				
+				
 			}
 
 			@Override
@@ -77,10 +91,4 @@ public class MyStatsActivity extends Activity{
 //		
 		
 	}
-	
 }
-
-
-
-
-
