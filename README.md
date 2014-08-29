@@ -10,11 +10,16 @@ Yijie:
 
 3. Style the ActionBar ***
 	
-4. Create a TrafficActivity to display traffic patterns at a particular gym
-	> draw a histogram representing traffic data
+4. Create a TrafficActivity to display traffic patterns at a particular gym ***
+	> draw a histogram representing traffic data ***
 	
 5. Add Toast Message and sound effect when checked in ***
 
+DISPLAYING VISITS IN THE GRAPH
+	
+	1. modify firebase schema to include Users, Gyms, and Visits
+	
+	
 
 ===============================================
 
