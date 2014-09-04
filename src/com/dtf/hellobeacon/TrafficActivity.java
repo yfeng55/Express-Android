@@ -1,11 +1,14 @@
 package com.dtf.hellobeacon;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import pl.flex_it.androidplot.MultitouchPlot;
 import android.app.Activity;
@@ -33,6 +36,10 @@ import com.dtf.hellobeacon.util.RangingTask;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.example.hellobeacon.R;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 
 public class TrafficActivity extends Activity{
@@ -45,6 +52,13 @@ public class TrafficActivity extends Activity{
 	private String gym;
 	private TextView gymname;
 
+	//
+	private String firstname;
+	private String lastname;
+	List<Long> visits;
+	StringBuilder builder;
+	//
+	
 	BeaconManager beaconManager;
 	Context context;
 
@@ -65,6 +79,15 @@ public class TrafficActivity extends Activity{
 		context = this;
 		rTask = new RangingTask(context, beaconManager);
 		rTask.execute(beaconManager);
+		
+		
+		firstname = prefs.getString("firstName", "No First Name");
+		lastname = prefs.getString("lastName", "No Last Name");
+		
+				
+		builder = new StringBuilder();
+
+		populateGymVisits();
 		
 		//DRAW GRAPH
 		drawGraph();
@@ -164,7 +187,48 @@ public class TrafficActivity extends Activity{
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	
+	protected void populateGymVisits() {
+		final DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
+		//get the user's visits from firebase
+		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymname);
+		
+		final ArrayList<String> test = new ArrayList<String>();
+		
+		visitsref.addValueEventListener(new ValueEventListener() {
+			
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {
+				//GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+			    //List<String> messages = snapshot.getValue(t);
+				
+				//TODO edit accordingly
+				String list_items = snapshot.getValue().toString();
+				String[] list_values = list_items.split(",");
+								
+				int i = 1;
+				for (String s : list_values){
+					
+					String e = s.substring(s.lastIndexOf("=") + 1, s.lastIndexOf("=") + 14);
+					//e = e.replaceAll("[^\\d.]", "");
+					//timestamps.add(Long.valueOf(e).longValue());
+					
+					Date date = new Date(Long.valueOf(e).longValue());
+					String reportdate = df.format(date);
+					
+					builder.append("VISIT " + Integer.toString(i) + ": " + reportdate + "\n\n");
+					i++;
+				}
+												
+				test.add(builder.toString());
+			}
+
+			@Override
+			public void onCancelled(FirebaseError error) {
+				System.err.println("Listener was cancelled");
+			}
+
+		});
+	}
 	
 	private void drawGraph(){
 		MultitouchPlot plot = (MultitouchPlot) findViewById(R.id.multitouchPlot);
