@@ -3,12 +3,13 @@ package com.dtf.hellobeacon;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.hellobeacon.R;
@@ -24,6 +25,7 @@ public class MyStatsActivity extends Activity {
 	private String lastname;
 	private TextView myname;
 	private TextView mystats;
+	private ProgressBar spinner;
 	List<Long> visits;
 	StringBuilder builder;
 
@@ -32,13 +34,18 @@ public class MyStatsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mystats);
 		
+		spinner = (ProgressBar)findViewById(R.id.progressBar1);
+		//spinner.setVisibility(View.GONE);
+		spinner.setVisibility(View.VISIBLE);
+		
+		myname = (TextView) findViewById(R.id.tv_MyName);
+		mystats = (TextView) findViewById(R.id.tv_mystats);
+		
 		//set person's name
 		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);
 		firstname = prefs.getString("firstName", "No First Name");
 		lastname = prefs.getString("lastName", "No Last Name");
 		
-		myname = (TextView) findViewById(R.id.tv_MyName);
-		mystats = (TextView) findViewById(R.id.tv_mystats);
 		mystats.setText("");
 		
 		myname.setText(firstname + " " + lastname + " :: PERSONAL STATS");
@@ -72,7 +79,9 @@ public class MyStatsActivity extends Activity {
 					builder.append("VISIT " + Integer.toString(i) + ": " + reportdate + "\n\n");
 					i++;
 				}
-								
+				
+				spinner.setVisibility(View.GONE);
+				
 				mystats.setText(builder.toString());
 				
 				
@@ -93,4 +102,14 @@ public class MyStatsActivity extends Activity {
 //		
 		
 	}
+		
+	
+	
 }
+
+
+
+
+
+
+

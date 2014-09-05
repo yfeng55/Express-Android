@@ -16,6 +16,16 @@
         android:gravity="center"
         android:text="My Name" />
     
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
+    
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
