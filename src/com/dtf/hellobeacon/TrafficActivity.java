@@ -39,6 +39,7 @@ import com.example.hellobeacon.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 
 
@@ -88,7 +89,7 @@ public class TrafficActivity extends Activity{
 		builder = new StringBuilder();
 
 		populateGymVisits();
-		
+		//
 		//DRAW GRAPH
 		drawGraph();
 		
@@ -188,24 +189,28 @@ public class TrafficActivity extends Activity{
 	}
 
 	protected void populateGymVisits() {
+		/*
+
 		final DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
 		//get the user's visits from firebase
-		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymname);
+		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" +gymname.toString());
 		
-		final ArrayList<String> test = new ArrayList<String>();
+		ArrayList<List<Visit>> listOfVisit = new ArrayList<List<Visit>>();
+		final ArrayList<Visit> test = new ArrayList<Visit>();
 		
 		visitsref.addValueEventListener(new ValueEventListener() {
 			
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {
-				//GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
-			    //List<String> messages = snapshot.getValue(t);
+				GenericTypeIndicator<List<List<Visit>>> t = new GenericTypeIndicator<List<List<Visit>>>() {};
+			    List<List<Visit>> gymVisits = snapshot.getValue(t);
 				
 				//TODO edit accordingly
-				String list_items = snapshot.getValue().toString();
-				String[] list_values = list_items.split(",");
+				//String list_items = snapshot.getValue().toString();
+				//String[] list_values = list_items.split(",");
 								
 				int i = 1;
+				
 				for (String s : list_values){
 					
 					String e = s.substring(s.lastIndexOf("=") + 1, s.lastIndexOf("=") + 14);
@@ -227,7 +232,7 @@ public class TrafficActivity extends Activity{
 				System.err.println("Listener was cancelled");
 			}
 
-		});
+		});*/
 	}
 	
 	private void drawGraph(){

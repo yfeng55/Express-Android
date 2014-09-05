@@ -81,7 +81,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 
 				    double distance = Utils.computeAccuracy(rangedBeacon);
 				    Log.d("tracking", "distance = " + distance);
-					if(distance < 3)
+					if(distance < 100)
 					{
 						addVisitToUser();
 					}
@@ -103,23 +103,31 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 			prefs = mContext.getSharedPreferences("com.dtf.hellobeacon", 0);
 			String firstname = prefs.getString("firstName", "nobody");
 			String lastname = prefs.getString("lastName", "nobody");
+			
+			String gymname = prefs.getString("gym", "No Gym Selected");
+
 			boolean isInGym = prefs.getBoolean("is in Gym", false);
 			
 			if(!isInGym){
 								
+				
+			Log.d("current hour", "curr hour is " + DateAndTimeUtil.getCurrentHour());
 			Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");
-			Firebase newpushref = visitsref.push();
 			
+			Firebase gymVisitRef = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymname + "/" + DateAndTimeUtil.getCurrentHour() + ":00/");
+		
+			
+			Firebase newpushref = visitsref.push();
+			Firebase gympushref = gymVisitRef.push();
 			
 			if(!hasEntered)
 			{
+				Log.d("pushing time stamp ", "Name - " + firstname + " " + lastname + " hr - " + DateAndTimeUtil.getCurrentHour());
 				//pushing a new visit to the server; the time value is the Server's TIMESTAMP attribute
 				newpushref.setValue(ServerValue.TIMESTAMP);
-				
 				hasEntered = true;
-				
+				gympushref.setValue(ServerValue.TIMESTAMP);
 				//show toast message that says "checked in to gymname"
-				String gymname = prefs.getString("gym", "No Gym Selected");
 				Toast.makeText(mContext, "Checked In to " + gymname, Toast.LENGTH_LONG).show();
 				
 				//play sound effect
