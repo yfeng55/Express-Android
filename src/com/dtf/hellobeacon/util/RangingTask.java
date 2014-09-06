@@ -111,10 +111,10 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 			if(!isInGym){
 								
 				
-			Log.d("current hour", "curr hour is " + DateAndTimeUtil.getCurrentHour());
+			Log.d("current hour", "curr hour is " + DateUtil.getCurrentHour());
 			Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");
 			
-			Firebase gymVisitRef = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymname + "/" + DateAndTimeUtil.getCurrentHour() + ":00/");
+			Firebase gymVisitRef = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymname + "/" + DateUtil.getCurrentHour() + ":00/");
 		
 			
 			Firebase newpushref = visitsref.push();
@@ -122,7 +122,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 			
 			if(!hasEntered)
 			{
-				Log.d("pushing time stamp ", "Name - " + firstname + " " + lastname + " hr - " + DateAndTimeUtil.getCurrentHour());
+				Log.d("pushing time stamp ", "Name - " + firstname + " " + lastname + " hr - " + DateUtil.getCurrentHour());
 				//pushing a new visit to the server; the time value is the Server's TIMESTAMP attribute
 				newpushref.setValue(ServerValue.TIMESTAMP);
 				hasEntered = true;
