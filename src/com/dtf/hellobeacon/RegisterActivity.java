@@ -28,6 +28,7 @@ public class RegisterActivity extends Activity {
 	private User user;
 
 	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,6 +76,7 @@ public class RegisterActivity extends Activity {
 		editor.putString("lastName", user.getLastName());
 		editor.putString("email", user.getEmail());
 		editor.putString("gym", user.getGym());
+	
 		//editor.putInt("visits", user.getVisits());
 		editor.putBoolean("is in Gym", user.getInGym());
 		editor.commit();

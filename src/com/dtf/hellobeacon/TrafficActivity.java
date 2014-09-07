@@ -1,14 +1,19 @@
 package com.dtf.hellobeacon;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import pl.flex_it.androidplot.MultitouchPlot;
 import android.app.Activity;
@@ -52,13 +57,26 @@ public class TrafficActivity extends Activity{
 	private SharedPreferences prefs;
 	private String gym;
 	private TextView gymname;
-
+	
+	protected Gym gymData;
+	protected String gymAddress;
+	protected String gymPhoneNumber;
+	protected String gymCity;
+	protected String gymState;
+	protected int openHour;
+	protected int closeHour;
+	protected int capacity;
 	//
 	private String firstname;
 	private String lastname;
 	List<Long> visits;
-	StringBuilder builder;
 	//
+	
+	DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
+	
+	protected HashMap<String, List<Visit>> listOfVisits = new HashMap<String, List<Visit>>();		
+	protected HashMap<String, Integer> numberOfVisits = new  HashMap<String, Integer>();
+	protected ArrayList<Visit> test = new ArrayList<Visit>();
 	
 	BeaconManager beaconManager;
 	Context context;
@@ -72,9 +90,24 @@ public class TrafficActivity extends Activity{
 		//set gym name
 		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);
 		gym = prefs.getString("gym", "No Gym Selected");
+		gymAddress = prefs.getString("gymaddress", "dummy address");
+		gymCity = prefs.getString("gymcity", "dummy city");
+		gymState = prefs.getString("gymstate", "dummy state");
+		gymPhoneNumber = prefs.getString("gymphone", "555-555-5555");
+		openHour = prefs.getInt("gymopenhour", 0);
+		closeHour = prefs.getInt("gymclosehour", 24);
+		capacity = prefs.getInt("gymcapacity", 300);
+		
 		gymname = (TextView) findViewById(R.id.tv_GymName);
 		gymname.setText(gym);
 
+		//way to instantiate with builder pattern
+		gymData = new Gym.GymBuilder()
+				.buildName(gym)
+				.buildContactInfo(gymAddress, gymCity, gymState, gymPhoneNumber)
+				.buildHours(openHour, closeHour)
+				.build();
+		
 		//ranging
 		beaconManager = new BeaconManager(this);
 		context = this;
@@ -86,12 +119,10 @@ public class TrafficActivity extends Activity{
 		lastname = prefs.getString("lastName", "No Last Name");
 		
 				
-		builder = new StringBuilder();
-
 		populateGymVisits();
 		//
 		//DRAW GRAPH
-		drawGraph();
+		//drawGraph();
 		
 	}
 	
@@ -189,42 +220,31 @@ public class TrafficActivity extends Activity{
 	}
 
 	protected void populateGymVisits() {
-		/*
+		
 
 		final DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
 		//get the user's visits from firebase
-		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" +gymname.toString());
 		
-		ArrayList<List<Visit>> listOfVisit = new ArrayList<List<Visit>>();
-		final ArrayList<Visit> test = new ArrayList<Visit>();
+
 		
+		Log.d("gym name", "gym name - " + gym);
+		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" +gym + "/Visits");
+
 		visitsref.addValueEventListener(new ValueEventListener() {
 			
 			@Override
-			public void onDataChange(DataSnapshot snapshot) {
-				GenericTypeIndicator<List<List<Visit>>> t = new GenericTypeIndicator<List<List<Visit>>>() {};
-			    List<List<Visit>> gymVisits = snapshot.getValue(t);
-				
-				//TODO edit accordingly
-				//String list_items = snapshot.getValue().toString();
-				//String[] list_values = list_items.split(",");
-								
-				int i = 1;
-				
-				for (String s : list_values){
-					
-					String e = s.substring(s.lastIndexOf("=") + 1, s.lastIndexOf("=") + 14);
-					//e = e.replaceAll("[^\\d.]", "");
-					//timestamps.add(Long.valueOf(e).longValue());
-					
-					Date date = new Date(Long.valueOf(e).longValue());
-					String reportdate = df.format(date);
-					
-					builder.append("VISIT " + Integer.toString(i) + ": " + reportdate + "\n\n");
-					i++;
+			public void onDataChange(DataSnapshot snapshot) {			
+
+				for(DataSnapshot child : snapshot.getChildren()) {
+					try {
+						addToTimeMap(child.getValue().toString());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-												
-				test.add(builder.toString());
+				drawGraph();
+
 			}
 
 			@Override
@@ -232,7 +252,8 @@ public class TrafficActivity extends Activity{
 				System.err.println("Listener was cancelled");
 			}
 
-		});*/
+		});
+		
 	}
 	
 	private void drawGraph(){
@@ -244,10 +265,21 @@ public class TrafficActivity extends Activity{
         GraphUtil.configureLegend(plot);
 		
         // Create an array of y-values to plot:
-        Number[] y_values = {30, 35, 32, 40, 38, 45, 55, 57, 67, 70, 72, 65, 55, 56, 47};
+        Number[] y_values = new Number[closeHour-openHour];
+        for(int index = 0; index < closeHour - openHour; index++) {
+        	y_values[index] = getVisitsAtHour(index + openHour);
+        }
         
         // create an array of x-values: (8AM to 10PM in 1hr increments - July 25th EST)
         Number[] x_values = {
+        		1406271600,  // 12AM
+        		1406275200,  // 1AM
+        		1406278800,  // 2AM
+        		1406282400,  // 3AM
+        		1406286000,  // 4AM
+        		1406289600,  // 5AM
+        		1406293200,  // 6AM
+        		1406296800,  // 7AM
         		1406300400,  // 8AM
         		1406304000,  // 9AM
         		1406307600,  // 10AM
@@ -262,7 +294,8 @@ public class TrafficActivity extends Activity{
         		1406340000,  // 7PM
         		1406343600,  // 8PM
         		1406347200,  // 9PM
-        		1406350800   // 10PM
+        		1406350800,  // 10PM
+        		1406354400  // 11PM
         };
 
         // Turn the above arrays into XYSeries:
@@ -291,7 +324,7 @@ public class TrafficActivity extends Activity{
 
         //set gridlines
         plot.setRangeStep(XYStepMode.SUBDIVIDE, 9);
-        plot.setDomainStep(XYStepMode.SUBDIVIDE, 5);
+        plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
         
         //set range and domain label widths
         plot.getGraphWidget().setRangeLabelWidth(70);
@@ -329,8 +362,39 @@ public class TrafficActivity extends Activity{
         // To get rid of them call disableAllMarkup():
         plot.disableAllMarkup();
         plot.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
+        
+	}
+	
+	public void addToTimeMap(String fbTimeKeyValue) throws ParseException {
+		String timeStamp = fbTimeKeyValue.substring(fbTimeKeyValue.lastIndexOf("=") + 1, fbTimeKeyValue.lastIndexOf("=") + 14);
+		DateTime date = new DateTime(Long.valueOf(timeStamp).longValue());
+		Date shittyDate = new Date(Long.valueOf(timeStamp).longValue());
+		String reportdate = df.format(shittyDate);
+		int hour = date.getHourOfDay();
+		Visit newVisit = new Visit();
+		newVisit.setEnterTime(reportdate);
+		
+		if(!listOfVisits.containsKey(String.valueOf(hour)))
+		{
+			ArrayList<Visit> newVisitList = new ArrayList<Visit>();
+			newVisitList.add(newVisit);
+			listOfVisits.put(String.valueOf(hour), newVisitList);
+		}
+		else {
+			listOfVisits.get(String.valueOf(hour)).add(newVisit);
+			}
 	}
 
+	public int getVisitsAtHour(int hour) {		
+		String time = String.valueOf(hour);
+
+		if(!listOfVisits.containsKey(time)) {
+			return 0;
+		}
+		//else return size of list
+
+		return listOfVisits.get(time).size()*2;
+	}
 }
 
 

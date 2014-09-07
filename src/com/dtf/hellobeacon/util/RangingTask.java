@@ -114,7 +114,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 			Log.d("current hour", "curr hour is " + DateUtil.getCurrentHour());
 			Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");
 			
-			Firebase gymVisitRef = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymname + "/" + DateUtil.getCurrentHour() + ":00/");
+			Firebase gymVisitRef = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymname + "/Visits/");
 		
 			
 			Firebase newpushref = visitsref.push();

@@ -74,6 +74,7 @@ public class MyStatsActivity extends Activity {
 				month_visits = 0;
 				ytd_visits = 0;
 				
+				
 				String list_items = snapshot.getValue().toString();
 				String[] list_values = list_items.split(",");
 								
