@@ -8,13 +8,14 @@
         android:id="@+id/tv_MyName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="23dp"
+        android:gravity="left"
         android:text="My Name"
-        android:textColor="@color/gray"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:textColor="@color/lightgray"
+        android:textScaleX=".9"
+        android:textSize="25sp" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -25,55 +26,130 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:gravity="center" />
-
+    
+    
     <LinearLayout
         android:id="@+id/mystats_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
+        
         <TextView
-            android:id="@+id/tv_weeklyprogress"
-            android:layout_width="fill_parent"
+            android:id="@+id/tv_lastvisitheader"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginLeft="23dp"	       
             android:gravity="left"
-            android:text="Weekly Progress"
-            android:textColor="@color/gray"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textColor="@color/darkgray"
+            android:textSize="22sp"
+            android:textScaleX=".9"
+	        android:textStyle="bold"
+            android:text="Last Visit On" />
+        
+        <TextView
+            android:id="@+id/tv_lastvisit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="23dp"	       
+            android:gravity="left"
+            android:textColor="@color/darkgray"
+            android:textSize="18sp"
+            android:textScaleX=".9"
+            android:text="Last Visit" />
+        
+        
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@color/lightgray" />
+        
+        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_marginTop="25dp" >
+	        <TextView
+	            android:id="@+id/tv_weeklyvisits"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="2"
+	            android:layout_marginBottom="5dp"
+	            android:layout_marginLeft="23dp"	       
+	            android:gravity="left"
+	            android:text="Visits"
+	            android:textColor="@color/darkgray"
+	            android:textSize="22sp"
+	            android:textScaleX=".9"
+	            android:textStyle="bold" />
+	        <TextView
+	            android:id="@+id/tv_weeklyprogress"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:layout_marginBottom="5dp"
+	            android:layout_marginRight="23dp"
+	            android:gravity="right"
+	            android:text="This Week"
+	            android:textColor="@color/darkgray"
+	            android:textSize="15sp" />
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/weeklyprogress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" 
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="23dp"
+            android:layout_marginBottom="25dp"
             android:indeterminate="false"
             android:max="7"
-            android:minHeight="35dp"
+            android:minHeight="10dp"
             android:minWidth="200dp"
             android:progress="3"
             android:progressDrawable="@drawable/horizontal_progress_drawable_red" />
-
-        <TextView
-            android:id="@+id/tv_monthlyprogress"
+		
+        <View
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="50dp"
-            android:gravity="left"
-            android:text="Monthly Progress"
-            android:textColor="@color/gray"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
+            android:layout_height="1dip"
+            android:background="@color/lightgray" />
+        
+        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_marginTop="25dp" >
+	        <TextView
+	            android:id="@+id/tv_monthlyvisits"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="2"
+	            android:layout_marginBottom="5dp"
+	            android:layout_marginLeft="23dp"
+	            android:gravity="left"
+	            android:text="Visits"
+	            android:textColor="@color/darkgray"
+	            android:textSize="22sp"
+	            android:textScaleX=".9"
+	            android:textStyle="bold" />
+	        <TextView
+	            android:id="@+id/tv_monthlyprogress"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:layout_marginBottom="5dp"
+	            android:layout_marginRight="23dp"
+	            android:gravity="right"
+	            android:text="This Month"
+	            android:textColor="@color/darkgray"
+	            android:textSize="15sp" />
+        </LinearLayout>
+                
         <ProgressBar
             android:id="@+id/monthlyprogress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -83,26 +159,52 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="23dp"
+            android:layout_marginBottom="25dp"
             android:indeterminate="false"
             android:max="31"
-            android:minHeight="35dp"
+            android:minHeight="10dp"
             android:minWidth="200dp"
             android:progress="3"
             android:progressDrawable="@drawable/horizontal_progress_drawable_red" />
 
-        <TextView
-            android:id="@+id/tv_ytdprogress"
+        
+        <View
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="23dp"
-            android:layout_marginTop="50dp"
-            android:gravity="left"
-            android:text="Year To Date Progress"
-            android:textColor="@color/gray"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
+            android:layout_height="1dip"
+            android:background="@color/lightgray" />
+        
+        
+        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_marginTop="25dp" >
+	        <TextView
+	            android:id="@+id/tv_ytdvisits"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="2"
+	            android:layout_marginBottom="5dp"
+	            android:layout_marginLeft="23dp"
+	            android:gravity="left"
+	            android:text="Visits"
+	            android:textColor="@color/darkgray"
+	            android:textSize="22sp"
+	            android:textScaleX=".9"
+	            android:textStyle="bold" />
+	        <TextView
+	            android:id="@+id/tv_ytdprogress"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:layout_marginBottom="5dp"
+	            android:layout_marginRight="23dp"
+	            android:gravity="right"
+	            android:text="Year To Date"
+	            android:textColor="@color/darkgray"
+	            android:textSize="15sp" />
+        </LinearLayout>
+		
         <ProgressBar
             android:id="@+id/ytd_progress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -112,12 +214,19 @@
             android:layout_alignParentTop="true"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="23dp"
+            android:layout_marginBottom="25dp"
             android:indeterminate="false"
             android:max="365"
-            android:minHeight="35dp"
+            android:minHeight="10dp"
             android:minWidth="200dp"
             android:progress="3"
             android:progressDrawable="@drawable/horizontal_progress_drawable_red" />
+        
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@color/lightgray" />
+        
     </LinearLayout>
 
 </LinearLayout>
