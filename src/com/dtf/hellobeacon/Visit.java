@@ -12,8 +12,9 @@ import android.util.Log;
 public class Visit {
 	
 	protected Date enterTime;
-	protected Date exitTime;
+	Date exitTime;
 	protected long lengthOfStay;
+	protected SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy K:mm a");
 	
 	public Visit()
 	{
@@ -26,8 +27,7 @@ public class Visit {
 	 * @param time
 	 */
 	public void setTime(Date time){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm a");
-		time = new Date();
+		//time = new Date();
 		GregorianCalendar timeCal = new GregorianCalendar();
 		String timeString = dateFormat.format(timeCal.getTime());
 		try {
@@ -36,6 +36,10 @@ public class Visit {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void setEnterTime(String time) throws ParseException {
+		enterTime = dateFormat.parse(time);
 	}
 	
 	public void setLengthOfStay() {
