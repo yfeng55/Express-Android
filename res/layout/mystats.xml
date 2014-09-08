@@ -4,19 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/tv_MyName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="23dp"
-        android:gravity="left"
-        android:text="My Name"
-        android:textColor="@color/lightgray"
-        android:textScaleX=".9"
-        android:textSize="25sp" />
-
     <ProgressBar
         android:id="@+id/progressBar1"
         style="?android:attr/progressBarStyleLarge"
@@ -32,6 +19,7 @@
         android:id="@+id/mystats_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="25dp"
         android:orientation="vertical" >
 
         

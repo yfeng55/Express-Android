@@ -27,7 +27,6 @@ public class MyStatsActivity extends Activity {
 	private SharedPreferences prefs;
 	private String firstname;
 	private String lastname;
-	private TextView headertext;
 	private TextView lastvisitheader;
 	private ProgressBar spinner;
 	
@@ -63,7 +62,6 @@ public class MyStatsActivity extends Activity {
 		spinner.setVisibility(View.VISIBLE);
 		
 		//set view objects
-		headertext = (TextView) findViewById(R.id.tv_MyName);
 		lastvisitheader = (TextView) findViewById(R.id.tv_lastvisitheader);
 		
 		weekvisitsTV = (TextView) findViewById(R.id.tv_weeklyvisits);
@@ -82,12 +80,10 @@ public class MyStatsActivity extends Activity {
 		lastname = prefs.getString("lastName", "No Last Name");
 		
 		//set header and font
-		headertext.setText("PERSONAL STATS");
 		
 		boldfont = Typeface.createFromAsset(getAssets(), "Montserrat-Bold.ttf");
 		font = Typeface.createFromAsset(getAssets(), "Montserrat-Regular.ttf");
 		
-		headertext.setTypeface(font);
 		
 		//get the user's visits from firebase
 		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");

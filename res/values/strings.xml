@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Hellobeacon</string>
+    <string name="app_name">Express</string>
     <string name="registeractivity_label">Register</string>
     <string name="action_settings">Settings</string>
     <string name="gym_prompt">Select Your Gym</string>
