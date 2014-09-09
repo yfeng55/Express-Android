@@ -28,6 +28,8 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +59,7 @@ public class TrafficActivity extends Activity{
 	private SharedPreferences prefs;
 	private String gym;
 	private TextView gymname;
+	private ProgressBar spinner;
 	
 	protected Gym gymData;
 	protected String gymAddress;
@@ -225,7 +228,6 @@ public class TrafficActivity extends Activity{
 		final DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
 		//get the user's visits from firebase
 		
-
 		
 		Log.d("gym name", "gym name - " + gym);
 		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" +gym + "/Visits");
@@ -244,7 +246,7 @@ public class TrafficActivity extends Activity{
 					}
 				}
 				drawGraph();
-
+				
 			}
 
 			@Override
@@ -256,9 +258,16 @@ public class TrafficActivity extends Activity{
 		
 	}
 	
+	
+	
 	private void drawGraph(){
 		MultitouchPlot plot = (MultitouchPlot) findViewById(R.id.multitouchPlot);
         
+		//hide graph element and show spinner loading
+		spinner = (ProgressBar) findViewById(R.id.progressBar2);
+		//plot.setVisibility(View.GONE);
+		spinner.setVisibility(View.VISIBLE);
+		
 		//styling
 		GraphUtil.setBordersandPadding(plot);
 		GraphUtil.setColors(plot);
@@ -362,8 +371,14 @@ public class TrafficActivity extends Activity{
         // To get rid of them call disableAllMarkup():
         plot.disableAllMarkup();
         plot.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
+    
+		// show graph element and hide spinner
+		plot.setVisibility(View.VISIBLE);
+		spinner.setVisibility(View.GONE);
         
 	}
+	
+	
 	
 	public void addToTimeMap(String fbTimeKeyValue) throws ParseException {
 		String timeStamp = fbTimeKeyValue.substring(fbTimeKeyValue.lastIndexOf("=") + 1, fbTimeKeyValue.lastIndexOf("=") + 14);
