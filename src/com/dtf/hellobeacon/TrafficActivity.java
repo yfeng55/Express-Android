@@ -263,9 +263,8 @@ public class TrafficActivity extends Activity{
 	private void drawGraph(){
 		MultitouchPlot plot = (MultitouchPlot) findViewById(R.id.multitouchPlot);
         
-		//hide graph element and show spinner loading
+		//show spinner loading
 		spinner = (ProgressBar) findViewById(R.id.progressBar2);
-		//plot.setVisibility(View.GONE);
 		spinner.setVisibility(View.VISIBLE);
 		
 		//styling
