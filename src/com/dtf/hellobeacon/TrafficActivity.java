@@ -407,7 +407,7 @@ public class TrafficActivity extends Activity{
 		}
 		//else return size of list
 
-		return listOfVisits.get(time).size()*2;
+		return listOfVisits.get(time).size();
 	}
 }
 
