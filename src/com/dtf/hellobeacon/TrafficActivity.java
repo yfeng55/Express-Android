@@ -72,6 +72,7 @@ public class TrafficActivity extends Activity{
 	//
 	private String firstname;
 	private String lastname;
+	private boolean graphDataLoaded;
 	List<Long> visits;
 	//
 	
@@ -90,6 +91,10 @@ public class TrafficActivity extends Activity{
 		
 		setContentView(R.layout.traffic);
 
+		//set flag for retrieving firebase data
+		
+		graphDataLoaded = false;
+		
 		//set gym name
 		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);
 		gym = prefs.getString("gym", "No Gym Selected");
@@ -236,17 +241,18 @@ public class TrafficActivity extends Activity{
 			
 			@Override
 			public void onDataChange(DataSnapshot snapshot) {			
-
-				for(DataSnapshot child : snapshot.getChildren()) {
-					try {
-						addToTimeMap(child.getValue().toString());
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+			if(!graphDataLoaded) {
+					for(DataSnapshot child : snapshot.getChildren()) {
+						try {
+							addToTimeMap(child.getValue().toString());
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
-				}
-				drawGraph();
-				
+					drawGraph();
+					graphDataLoaded = true;
+				}	
 			}
 
 			@Override
@@ -395,8 +401,11 @@ public class TrafficActivity extends Activity{
 			listOfVisits.put(String.valueOf(hour), newVisitList);
 		}
 		else {
-			listOfVisits.get(String.valueOf(hour)).add(newVisit);
+			//TODO-remove the remove if timestamp already there part if necessary
+			if(!listOfVisits.get(String.valueOf(hour)).contains(newVisit)) {
+				listOfVisits.get(String.valueOf(hour)).add(newVisit);
 			}
+		}
 	}
 
 	public int getVisitsAtHour(int hour) {		
