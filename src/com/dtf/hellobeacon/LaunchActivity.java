@@ -35,7 +35,9 @@ public class LaunchActivity extends Activity{
 			Log.i("LaunchActivity", "logged in - the authtoken is true");
 
 			//if registered, then start the Traffic activity
-			Intent i = new Intent(this, TrafficActivity.class);
+			//Intent i = new Intent(this, TrafficActivity.class);
+			
+			Intent i = new Intent(this, HomeActivity.class);
 			startActivity(i);
 		}
 
