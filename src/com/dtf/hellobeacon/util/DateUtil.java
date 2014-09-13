@@ -2,6 +2,8 @@ package com.dtf.hellobeacon.util;
 import java.util.Calendar;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 
 /**
@@ -21,6 +23,11 @@ public class DateUtil {
 		return String.valueOf(dateTime.getHourOfDay());
 	}
 	
+	public static String getCurrentTime() {
+		DateTime dateTime = new DateTime();
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("hh:mm aa");
+		return dtf.print(dateTime);
+	}
 	
 	public static Long getWeekStart(){
 		

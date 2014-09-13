@@ -21,14 +21,14 @@ public class Gym {
 		gymVisitsPerHourMap = new HashMap<Integer, List<Visit>>();
 	}
 	public Gym(GymBuilder gymBuilder) {
-		name = gymBuilder.name;
-		address = gymBuilder.address;
-		city = gymBuilder.city;
-		state = gymBuilder.state;
-		phoneNumber = gymBuilder.phoneNumber;
-		openHour = gymBuilder.openHour;
-		closeHour = gymBuilder.closeHour;
-		capacity = gymBuilder.capacity;
+		this.name = gymBuilder.name;
+		this.address = gymBuilder.address;
+		this.city = gymBuilder.city;
+		this.state = gymBuilder.state;
+		this.phoneNumber = gymBuilder.phoneNumber;
+		this.openHour = gymBuilder.openHour;
+		this.closeHour = gymBuilder.closeHour;
+		this.capacity = gymBuilder.capacity;
 	}
 	
 	public void setHours(int openHour, int closeHour) {
@@ -112,35 +112,47 @@ public class Gym {
 		}
 		
 		public GymBuilder buildName(String name) {
-			gym.setName(name);
+			this.gym.setName(name);
+			this.name = name;
 			return this;
 		}
 		public GymBuilder buildCapacity(int capacity) {
-			gym.setCapacity(capacity);
+			this.capacity = capacity;
+			this.gym.setCapacity(capacity);
 			return this;
 		}
 		public GymBuilder buildPhone(String phoneNumber) {
-			gym.setPhoneNumber(phoneNumber);
+			this.phoneNumber = phoneNumber;
+			this.gym.setPhoneNumber(phoneNumber);
 			return this;
 		}
 		public GymBuilder buildAddress(String address, String city, String state) {
-			gym.setAddress(address);
-			gym.setCity(city);
-			gym.setState(state);
+			this.address = address;
+			this.city = city;
+			this.state = state;
+			this.gym.setAddress(address);
+			this.gym.setCity(city);
+			this.gym.setState(state);
 			return this;
 		}
 		
 		public GymBuilder buildContactInfo(String address, String city, String state, String phoneNumber) {
-			gym.setAddress(address);
-			gym.setCity(city);
-			gym.setState(state);
-			gym.setPhoneNumber(phoneNumber);
+			this.address = address;
+			this.city = city;
+			this.state = state;
+			this.phoneNumber = phoneNumber;
+			this.gym.setAddress(address);
+			this.gym.setCity(city);
+			this.gym.setState(state);
+			this.gym.setPhoneNumber(phoneNumber);
 			return this;
 		}
 		
 		public GymBuilder buildHours(int openHour, int closeHour) {
-			gym.setOpenHour(openHour);
-			gym.setCloseHour(closeHour);
+			this.openHour = openHour;
+			this.closeHour = closeHour;
+			this.gym.setOpenHour(openHour);
+			this.gym.setCloseHour(closeHour);
 			return this;
 		}
 		

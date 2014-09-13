@@ -15,6 +15,7 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYStepMode;
+import com.dtf.hellobeacon.util.DateUtil;
 import com.dtf.hellobeacon.util.GraphUtil;
 import com.example.hellobeacon.R;
 
@@ -27,11 +28,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class HomeActivity extends Activity {
 	
 	private SharedPreferences prefs;
 	private ProgressBar spinner;
+	
+	protected TextView gymName;
+	protected TextView currentTime;
+	protected TextView currentCapacity;
 	
 	protected Gym gymData;
 	protected String gym;
@@ -68,13 +74,26 @@ public class HomeActivity extends Activity {
 		.buildContactInfo(gymAddress, gymCity, gymState, gymPhoneNumber)
 		.buildHours(openHour, closeHour)
 		.build();
+		
+		setTextViews();
+	}
+	
+	public void setTextViews() {
+		gymName = (TextView)findViewById(R.id.gymNameText);
+		currentTime = (TextView)findViewById(R.id.currentTimeText);
+		currentCapacity = (TextView)findViewById(R.id.currentCapacity);
+			
+		Log.d("name", "gym data name is " + gymData.getName() + " " + gym);
+		gymName.setText(gymData.getName());
+		currentTime.setText(DateUtil.getCurrentTime());
+		currentCapacity.setText(String.valueOf(capacity));
 	}
 	
 	public void onMiniGraphClick(View v) {
 		Intent i = new Intent(this, TrafficActivity.class);
 		startActivity(i);
 	}
-	
+	/*
 	private void drawGraph(){
 		MultitouchPlot plot = (MultitouchPlot) findViewById(R.id.multitouchPlot1);
         
@@ -191,5 +210,5 @@ public class HomeActivity extends Activity {
 		plot.setVisibility(View.VISIBLE);
 		spinner.setVisibility(View.GONE);
         
-	}
+	}*/
 }

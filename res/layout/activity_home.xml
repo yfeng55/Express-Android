@@ -14,15 +14,15 @@
 
     <RelativeLayout
         android:id="@+id/gymInfoHolder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="80dp" >
 
         <TextView
             android:id="@+id/gymNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="nbkjbjkbjkkbkjb"
             android:textSize="14sp" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:layout_below="@id/currentTimeText"
             android:text=""
             android:textSize="14sp" />
-
+<!-- 
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleLarge"
@@ -62,6 +62,7 @@
             android:clickable="true"
             android:onClick="onMiniGraphClick"
             android:visibility="visible" />
+             -->
     </RelativeLayout>
 
 </FrameLayout>
