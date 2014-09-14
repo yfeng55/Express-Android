@@ -167,9 +167,9 @@ public class TrafficActivity extends Activity{
 		final DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
 		//get the user's visits from firebase
 		
-		
-		Log.d("gym name", "gym name - " + gym);
-		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" +gym + "/Visits");
+		String gymWithoutSpaces = gym.replaceAll("\\s+","");
+		Log.d("traffic activity", "pop graph gym name w/o spaces - " + gymWithoutSpaces);
+		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" +gymWithoutSpaces + "/Visits");
 
 		visitsref.addValueEventListener(new ValueEventListener() {
 			

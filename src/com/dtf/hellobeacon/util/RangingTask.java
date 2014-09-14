@@ -104,17 +104,20 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 			String firstname = prefs.getString("firstName", "nobody");
 			String lastname = prefs.getString("lastName", "nobody");
 			
+			//getting gym name and replacing all spaces in it for firebase/database purposes
 			String gymname = prefs.getString("gym", "No Gym Selected");
-
+			String gymnameWithoutSpaces = gymname.replaceAll("\\s","");
+			
 			boolean isInGym = prefs.getBoolean("is in Gym", false);
 			
 			if(!isInGym){
-								
+				Log.d("ranging task", "gym name w/o spaces - " + gymname);
+
 				
 			Log.d("current hour", "curr hour is " + DateUtil.getCurrentHour());
 			Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");
 			
-			Firebase gymVisitRef = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymname + "/Visits/");
+			Firebase gymVisitRef = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymnameWithoutSpaces + "/Visits/");
 		
 			
 			Firebase newpushref = visitsref.push();
