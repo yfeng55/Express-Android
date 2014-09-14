@@ -16,27 +16,41 @@ import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYStepMode;
 import com.dtf.hellobeacon.util.DateUtil;
+import com.dtf.hellobeacon.util.GraphClickListener;
 import com.dtf.hellobeacon.util.GraphUtil;
+import com.dtf.hellobeacon.util.RangingTask;
+import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.Region;
 import com.example.hellobeacon.R;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends Activity implements GraphClickListener {
+	
+	private static final int REQUEST_ENABLE_BT = 0;
+	private static final Region ALL_ESTIMOTE_BEACONS_REGION = new Region("rid", null, null, null);
+	RangingTask rTask;
 	
 	private SharedPreferences prefs;
 	private ProgressBar spinner;
 	
 	protected TextView gymName;
-	protected TextView currentTime;
+	protected TextView openCloseTime;
 	protected TextView currentCapacity;
 	
 	protected Gym gymData;
@@ -52,6 +66,9 @@ public class HomeActivity extends Activity {
 	private String firstname;
 	private String lastname;
 	
+	BeaconManager beaconManager;
+	Context context;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -65,8 +82,8 @@ public class HomeActivity extends Activity {
 		gymCity = prefs.getString("gymcity", "dummy city");
 		gymState = prefs.getString("gymstate", "dummy state");
 		gymPhoneNumber = prefs.getString("gymphone", "555-555-5555");
-		openHour = prefs.getInt("gymopenhour", 0);
-		closeHour = prefs.getInt("gymclosehour", 24);
+		openHour = prefs.getInt("gymopenhour", 6);
+		closeHour = prefs.getInt("gymclosehour", 22);
 		capacity = prefs.getInt("gymcapacity", 300);
 
 		gymData = new Gym.GymBuilder()
@@ -76,31 +93,128 @@ public class HomeActivity extends Activity {
 		.build();
 		
 		setTextViews();
+		
+		//ranging
+		beaconManager = new BeaconManager(this);
+		context = this;
+		rTask = new RangingTask(context, beaconManager);
+		rTask.execute(beaconManager);
+		//drawGraph();
 	}
 	
 	public void setTextViews() {
 		gymName = (TextView)findViewById(R.id.gymNameText);
-		currentTime = (TextView)findViewById(R.id.currentTimeText);
+		openCloseTime = (TextView)findViewById(R.id.openCloseTimeText);
 		currentCapacity = (TextView)findViewById(R.id.currentCapacity);
 			
 		Log.d("name", "gym data name is " + gymData.getName() + " " + gym);
 		gymName.setText(gymData.getName());
-		currentTime.setText(DateUtil.getCurrentTime());
+		openCloseTime.setText(DateUtil.convertHourToTime(openHour, 0) + " to " + DateUtil.convertHourToTime(closeHour, 0));
 		currentCapacity.setText(String.valueOf(capacity));
 	}
 	
-	public void onMiniGraphClick(View v) {
-		Intent i = new Intent(this, TrafficActivity.class);
-		startActivity(i);
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.viewPersonalStats:
+			Intent i = new Intent(this, MyStatsActivity.class);
+			startActivity(i);
+			return true;
+		case R.id.about:
+			Intent j = new Intent(this, AboutActivity.class);
+			startActivity(j);
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	
+	/**
+	 * On Destroy LifeCycle Method - RangingTask is cancelled so ranginglistener stops running
+	 * and will reset to correct values when application reopened
+	 */
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		rTask.setHasEntered(false);
+		rTask.cancel(true);
+		Log.d("destroyed", "destroyedddd");
+		beaconManager.disconnect();
+	}
+	
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+
+		// Check if device supports Bluetooth Low Energy.
+		if (!beaconManager.hasBluetooth()) {
+			Toast.makeText(this, "Device does not have Bluetooth Low Energy", Toast.LENGTH_LONG).show();
+			return;
+		}
+
+		// If Bluetooth is not enabled, let user enable it.
+		if (!beaconManager.isBluetoothEnabled()) {
+			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+		} else {
+			connectToService();
+		}
+	}
+
+
+	/**
+	 * connect to beacon service for ranging
+	 */
+	private void connectToService() {
+		getActionBar().setSubtitle("Scanning...");
+		beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+			@Override
+			public void onServiceReady() {
+				try {
+					beaconManager.startRanging(ALL_ESTIMOTE_BEACONS_REGION);
+				} catch (RemoteException e) {
+					Toast.makeText(HomeActivity.this, "Cannot start ranging, something terrible happened",
+							Toast.LENGTH_LONG).show();
+					Log.d("fail", "Cannot start ranging", e);
+				}
+			}
+		});
+	}
+	
+	/**
+	 * TODO - document this later, from estimote SDK - don't quite understand
+	 */
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == REQUEST_ENABLE_BT) {
+			if (resultCode == Activity.RESULT_OK) {
+				connectToService();
+			} else {
+				Toast.makeText(this, "Bluetooth not enabled", Toast.LENGTH_LONG).show();
+				getActionBar().setSubtitle("Bluetooth not enabled");
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	/*
+	
 	private void drawGraph(){
 		MultitouchPlot plot = (MultitouchPlot) findViewById(R.id.multitouchPlot1);
-        
+		plot.setGraphClickListener(this);
 		//show spinner loading
-		spinner = (ProgressBar) findViewById(R.id.progressBar);
-		spinner.setVisibility(View.VISIBLE);
-		
+		//spinner = (ProgressBar) findViewById(R.id.progressBar);
+		//spinner.setVisibility(View.VISIBLE);
+		plot.setClickableIntent(true);
 		//styling
 		GraphUtil.setBordersandPadding(plot);
 		GraphUtil.setColors(plot);
@@ -208,7 +322,24 @@ public class HomeActivity extends Activity {
     
 		// show graph element and hide spinner
 		plot.setVisibility(View.VISIBLE);
-		spinner.setVisibility(View.GONE);
+		//spinner.setVisibility(View.GONE);
         
-	}*/
+	}
+	 */
+	
+	/**
+	 * GraphClickListener method for graph - goes to traffic activity on click
+	 * TODO - figure out how to do this efficiently, have to back out of traffic 
+	 * activity 3 times to get back to home when graph is shown in this activity
+	 */
+	@Override
+	public void onMiniGraphClick() {
+		Intent i = new Intent(this, TrafficActivity.class);
+		startActivity(i);
+	}
+	
+	public void toTrafficActivity(View v) {
+		Intent i = new Intent(this, TrafficActivity.class);
+		startActivity(i);
+	}
 }

@@ -16,31 +16,58 @@
         android:id="@+id/gymInfoHolder"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp" >
 
         <TextView
             android:id="@+id/gymNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="nbkjbjkbjkkbkjb"
-            android:textSize="14sp" />
+            android:layout_centerHorizontal="true"
+            android:text=""
+            android:textColor="@color/darkblue"
+            android:textScaleX=".9"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/currentTimeText"
+            android:id="@+id/openCloseTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/gymNameText"
+            android:layout_centerHorizontal="true"
             android:text=""
-            android:textSize="14sp" />
+            android:textColor="@color/darkblue"
+            android:textScaleX=".9"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/capacityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/openCloseTimeText"
+            android:layout_centerHorizontal="true"
+            android:text="Capacity"
+            android:textColor="@color/darkblue"
+            android:textScaleX=".9"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/currentCapacity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/currentTimeText"
+            android:layout_below="@id/capacityTitle"
+            android:layout_centerHorizontal="true"
             android:text=""
-            android:textSize="14sp" />
-<!-- 
+            android:textColor="@color/darkblue"
+            android:textScaleX=".9"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+
+        <!--
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleLarge"
@@ -51,18 +78,24 @@
             android:layout_marginTop="40dp"
             android:gravity="center" />
 
+		    
         <pl.flex_it.androidplot.MultitouchPlot
             android:id="@+id/multitouchPlot1"
-            android:layout_width="200px"
-            android:layout_height="200px"
-            android:layout_below="@id/currentCapacity"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="0px"
             title="A Simple multitouch XYPlot Example"
             android:clickable="true"
-            android:onClick="onMiniGraphClick"
+            android:enabled="true"
             android:visibility="visible" />
-             -->
+        -->
     </RelativeLayout>
-
+        <Button
+            android:id="@+id/toTrafficActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@drawable/ic_launcher"
+            android:onClick="toTrafficActivity"/>
 </FrameLayout>

@@ -1,15 +1,18 @@
 package pl.flex_it.androidplot;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+
 import com.androidplot.series.XYSeries;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeriesFormatter;
+import com.dtf.hellobeacon.util.GraphClickListener;
 
 /**
  * 
@@ -43,6 +46,11 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener
 	private Number newMinX;
 	private Number newMaxX;
 
+	GraphClickListener mGraphClickListener;
+	
+	private boolean hasClickableIntent = false;
+	Context _context;
+	
 	public MultitouchPlot(Context context, String title)
 	{
 		super(context, title);
@@ -66,6 +74,9 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener
 		this.setOnTouchListener(this);
 	}
 
+	public void setGraphClickListener(GraphClickListener g) {
+		this.mGraphClickListener = g;
+	}
 
 	public boolean addSeries(XYSeries series, XYSeriesFormatter formatter)
 	{
@@ -143,6 +154,10 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener
 					setDomainBoundaries(newMinX, newMaxX, BoundaryMode.FIXED);
 					redraw();
 				}
+			case MotionEvent.ACTION_UP:
+				if(hasClickableIntent) {
+					mGraphClickListener.onMiniGraphClick();
+				}
 				break;
 		}
 
@@ -206,5 +221,9 @@ public class MultitouchPlot extends XYPlot implements OnTouchListener
 		{
 			newMaxX = maxXSeriesValue;
 		}
+	}
+	
+	public void setClickableIntent(boolean graphClickableIntent) {
+		hasClickableIntent = graphClickableIntent;
 	}
 }

@@ -117,11 +117,12 @@ public class TrafficActivity extends Activity{
 				.build();
 		
 		//ranging
+		/*
 		beaconManager = new BeaconManager(this);
 		context = this;
 		rTask = new RangingTask(context, beaconManager);
 		rTask.execute(beaconManager);
-		
+		*/
 		
 		firstname = prefs.getString("firstName", "No First Name");
 		lastname = prefs.getString("lastName", "No Last Name");
@@ -158,74 +159,7 @@ public class TrafficActivity extends Activity{
 	}
 
 	
-	/**
-	 * On Destroy LifeCycle Method - RangingTask is cancelled so ranginglistener stops running
-	 * and will reset to correct values when application reopened
-	 */
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		rTask.setHasEntered(false);
-		rTask.cancel(true);
-		Log.d("destroyed", "destroyedddd");
-		beaconManager.disconnect();
-	}
-	
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-
-		// Check if device supports Bluetooth Low Energy.
-		if (!beaconManager.hasBluetooth()) {
-			Toast.makeText(this, "Device does not have Bluetooth Low Energy", Toast.LENGTH_LONG).show();
-			return;
-		}
-
-		// If Bluetooth is not enabled, let user enable it.
-		if (!beaconManager.isBluetoothEnabled()) {
-			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-		} else {
-			connectToService();
-		}
-	}
-
-
-	/**
-	 * connect to beacon service for ranging
-	 */
-	private void connectToService() {
-		getActionBar().setSubtitle("Scanning...");
-		beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-			@Override
-			public void onServiceReady() {
-				try {
-					beaconManager.startRanging(ALL_ESTIMOTE_BEACONS_REGION);
-				} catch (RemoteException e) {
-					Toast.makeText(TrafficActivity.this, "Cannot start ranging, something terrible happened",
-							Toast.LENGTH_LONG).show();
-					Log.d("fail", "Cannot start ranging", e);
-				}
-			}
-		});
-	}
-	
-	/**
-	 * TODO - document this later, from estimote SDK - don't quite understand
-	 */
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == REQUEST_ENABLE_BT) {
-			if (resultCode == Activity.RESULT_OK) {
-				connectToService();
-			} else {
-				Toast.makeText(this, "Bluetooth not enabled", Toast.LENGTH_LONG).show();
-				getActionBar().setSubtitle("Bluetooth not enabled");
-			}
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
 
 	protected void populateGymVisits() {
 		

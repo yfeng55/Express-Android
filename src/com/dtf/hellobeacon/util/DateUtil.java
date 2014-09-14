@@ -65,6 +65,33 @@ public class DateUtil {
 		return cal;
 	}
 	
+	/**
+	 * Used to get formatted time from ints of hour and minutes
+	 * @param hour
+	 * @param minutes
+	 * @return
+	 */
+	public static String convertHourToTime(int hour, int minutes) {
+		int minute = 0;
+		String amPM = "AM";
+		if(hour == 0 || hour == 24) {
+			//is 12 am
+			hour = 12;
+		}
+		else if(hour >= 12) {
+			hour = hour - 12;
+			amPM = "PM";
+		}
+		else if(hour > 23 || minutes > 60){
+			throw new IllegalArgumentException("Invalid hour in DateUtil - convertHourToTime");
+		}
+		
+		if(minute == 0)
+		{
+			return String.valueOf(hour) + ":00 " + amPM;
+		}			
+		return String.valueOf(hour) + ":" + String.valueOf(minute) + " " + amPM;
+	}
 	
 	public static int increment(int v, int type){
 		switch(type){
