@@ -1,8 +1,10 @@
 package com.dtf.hellobeacon;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.Format;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -23,6 +25,10 @@ import com.dtf.hellobeacon.util.RangingTask;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.example.hellobeacon.R;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
@@ -68,6 +74,8 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	private String firstname;
 	private String lastname;
 	
+	int currentVisitorCount = 0;
+	
 	BeaconManager beaconManager;
 	Context context;
 	
@@ -86,13 +94,15 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		gymPhoneNumber = prefs.getString("gymphone", "555-555-5555");
 		openHour = prefs.getInt("gymopenhour", 6);
 		closeHour = prefs.getInt("gymclosehour", 22);
-		capacity = prefs.getInt("gymcapacity", 300);
+		capacity = prefs.getInt("gymcapacity", 100);
 
 		gymData = new Gym.GymBuilder()
 		.buildName(gym)
 		.buildContactInfo(gymAddress, gymCity, gymState, gymPhoneNumber)
 		.buildHours(openHour, closeHour)
 		.build();
+		
+		retrieveFirebaseValues();
 		
 		setTextViews();
 		
@@ -120,7 +130,7 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		Log.d("name", "gym data name is " + gymData.getName() + " " + gym);
 		gymName.setText(gymData.getName());
 		openCloseTime.setText(DateUtil.convertHourToTime(openHour, 0) + " to " + DateUtil.convertHourToTime(closeHour, 0));
-		currentCapacity.setText(String.valueOf(capacity));
+		currentCapacity.setText(String.valueOf(currentVisitorCount/capacity) + "%");
 	}
 	
 	@Override
@@ -336,6 +346,29 @@ public class HomeActivity extends Activity implements GraphClickListener {
         
 	}
 	 */
+	
+	protected void retrieveFirebaseValues() {
+		
+
+		String gymWithoutSpaces = gym.replaceAll("\\s+","");
+		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" +gymWithoutSpaces + "/Visits");
+		visitsref.addValueEventListener(new ValueEventListener() {
+			
+			@Override
+			public void onDataChange(DataSnapshot snapshot) {	
+				Log.d("retrieveFirbaseVals", "child count is " + snapshot.getChildrenCount());
+				currentVisitorCount = (int)snapshot.getChildrenCount();
+				currentCapacity.setText(String.valueOf(currentVisitorCount/(capacity/100)) + "%");
+				currentCapacity.setVisibility(View.VISIBLE);
+			}
+			@Override
+			public void onCancelled(FirebaseError arg0) {
+				// TODO Auto-generated method stub
+				
+				}
+			});	
+		
+	}
 	
 	/**
 	 * GraphClickListener method for graph - goes to traffic activity on click

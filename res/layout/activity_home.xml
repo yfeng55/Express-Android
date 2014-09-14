@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/gymLogo"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|top"
         android:src="@drawable/home_logo" >
@@ -17,13 +17,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp" >
+        android:layout_marginTop="180dp" >
 
         <TextView
             android:id="@+id/gymNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
             android:text=""
             android:textColor="@color/darkblue"
             android:textScaleX=".9"
@@ -36,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/gymNameText"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
             android:text=""
             android:textColor="@color/darkblue"
             android:textScaleX=".9"
@@ -48,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/openCloseTimeText"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
             android:text="Capacity"
             android:textColor="@color/darkblue"
             android:textScaleX=".9"
@@ -64,7 +67,8 @@
             android:textColor="@color/darkblue"
             android:textScaleX=".9"
             android:textSize="48sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
         <!--
         <ProgressBar
@@ -89,22 +93,25 @@
             android:enabled="true"
             android:visibility="visible" />
         -->
+
     </RelativeLayout>
 
     <Button
         android:id="@+id/toTrafficActivity"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="right|bottom"
-        android:text="Traffic"
-        android:onClick="toTrafficActivity" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="400dp"
+        android:onClick="toTrafficActivity"
+        android:text="Traffic" />
 
     <Button
         android:id="@+id/toClassPage"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|bottom"
-        android:text="Class"
-        android:onClick="toClassPage" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="450dp"
+        android:onClick="toClassPage"
+        android:text="Class" />
 
 </FrameLayout>
