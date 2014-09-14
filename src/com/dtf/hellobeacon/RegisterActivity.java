@@ -83,7 +83,7 @@ public class RegisterActivity extends Activity {
 		editor.commit();
 
 		//after registering, start the next activity
-		Intent i = new Intent(this, TrafficActivity.class);
+		Intent i = new Intent(this, HomeActivity.class);
 		startActivity(i);
 		
 

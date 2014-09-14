@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
@@ -104,10 +105,18 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	}
 	
 	public void setTextViews() {
+		
+		Typeface font = Typeface.createFromAsset(getAssets(), "Montserrat-Regular.ttf");
+		
+		
 		gymName = (TextView)findViewById(R.id.gymNameText);
 		openCloseTime = (TextView)findViewById(R.id.openCloseTimeText);
 		currentCapacity = (TextView)findViewById(R.id.currentCapacity);
 			
+		gymName.setTypeface(font);
+		openCloseTime.setTypeface(font);
+		currentCapacity.setTypeface(font);
+		
 		Log.d("name", "gym data name is " + gymData.getName() + " " + gym);
 		gymName.setText(gymData.getName());
 		openCloseTime.setText(DateUtil.convertHourToTime(openHour, 0) + " to " + DateUtil.convertHourToTime(closeHour, 0));
