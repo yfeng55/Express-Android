@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.dtf.hellobeacon.util.DateUtil;
-import com.dtf.hellobeacon.util.ProgressBarAnimation;
+import com.dtf.hellobeacon.views.ProgressBarAnimation;
 import com.example.hellobeacon.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;

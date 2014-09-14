@@ -1,4 +1,4 @@
-package com.dtf.hellobeacon.util;
+package com.dtf.hellobeacon.views;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.ProgressBar;

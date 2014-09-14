@@ -15,6 +15,7 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYStepMode;
+import com.dtf.hellobeacon.model.Gym;
 import com.dtf.hellobeacon.util.DateUtil;
 import com.dtf.hellobeacon.util.GraphClickListener;
 import com.dtf.hellobeacon.util.GraphUtil;
@@ -340,6 +341,10 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	
 	public void toTrafficActivity(View v) {
 		Intent i = new Intent(this, TrafficActivity.class);
+		startActivity(i);
+	}
+	public void toClassPage(View v) {
+		Intent i = new Intent(this, ClassScheduleActivity.class);
 		startActivity(i);
 	}
 }

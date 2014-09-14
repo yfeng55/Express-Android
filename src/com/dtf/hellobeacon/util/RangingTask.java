@@ -9,7 +9,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.dtf.hellobeacon.Visit;
+import com.dtf.hellobeacon.model.Visit;
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;

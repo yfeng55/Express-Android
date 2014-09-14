@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.dtf.hellobeacon.model.User;
 import com.example.hellobeacon.R;
 import com.firebase.client.Firebase;
 import com.firebase.client.core.Context;

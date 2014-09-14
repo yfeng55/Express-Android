@@ -38,6 +38,8 @@ import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYStepMode;
+import com.dtf.hellobeacon.model.Gym;
+import com.dtf.hellobeacon.model.Visit;
 import com.dtf.hellobeacon.util.GraphUtil;
 import com.dtf.hellobeacon.util.RangingTask;
 import com.estimote.sdk.BeaconManager;

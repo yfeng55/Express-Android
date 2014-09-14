@@ -66,7 +66,6 @@
             android:textSize="48sp"
             android:textStyle="bold" />
 
-
         <!--
         <ProgressBar
             android:id="@+id/progressBar"
@@ -91,11 +90,21 @@
             android:visibility="visible" />
         -->
     </RelativeLayout>
-        <Button
-            android:id="@+id/toTrafficActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:background="@drawable/ic_launcher"
-            android:onClick="toTrafficActivity"/>
+
+    <Button
+        android:id="@+id/toTrafficActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:text="Traffic"
+        android:onClick="toTrafficActivity" />
+
+    <Button
+        android:id="@+id/toClassPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
+        android:text="Class"
+        android:onClick="toClassPage" />
+
 </FrameLayout>

@@ -1,4 +1,4 @@
-package com.dtf.hellobeacon;
+package com.dtf.hellobeacon.model;
 
 import java.util.Date;
 import java.util.HashMap;
