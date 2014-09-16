@@ -62,10 +62,12 @@ public class RegisterActivity extends Activity {
 		String gym = gymselection.getSelectedItem().toString();
 		String email = email_field.getText().toString();
 		boolean isInGym = false;
-
+		
+		String gymWithoutSpaces = gym.replaceAll("\\s+","");
+		
 		user = new User(firstname, lastname, gym, email, isInGym);
 
-		Firebase newpushref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname);
+		Firebase newpushref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymWithoutSpaces + "/Users/" + firstname + lastname);
 		newpushref.setValue(user);
 
 		//create a new editor for the prefs object

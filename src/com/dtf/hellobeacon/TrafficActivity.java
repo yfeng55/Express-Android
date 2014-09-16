@@ -78,12 +78,9 @@ public class TrafficActivity extends Activity{
 	List<Long> visits;
 	//
 	
-	DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
+	protected HashMap<String, List<Visit>> listOfVisits = new HashMap<String, List<Visit>>();
 	
-	protected HashMap<String, List<Visit>> listOfVisits = new HashMap<String, List<Visit>>();		
-	protected HashMap<String, Integer> numberOfVisits = new  HashMap<String, Integer>();
-	protected ArrayList<Visit> test = new ArrayList<Visit>();
-	
+	DateFormat df = new SimpleDateFormat("MM/dd/yyyy K:mm a");	
 	BeaconManager beaconManager;
 	Context context;
 

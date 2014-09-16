@@ -27,6 +27,7 @@ public class MyStatsActivity extends Activity {
 	private SharedPreferences prefs;
 	private String firstname;
 	private String lastname;
+	private String gym;
 	private TextView lastvisitheader;
 	private ProgressBar spinner;
 	
@@ -78,15 +79,17 @@ public class MyStatsActivity extends Activity {
 		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);
 		firstname = prefs.getString("firstName", "No First Name");
 		lastname = prefs.getString("lastName", "No Last Name");
-		
+		gym = prefs.getString("gym", "No Gym Selected");
 		//set header and font
+		String gymWithoutSpaces = gym.replaceAll("\\s+","");
 		
 		boldfont = Typeface.createFromAsset(getAssets(), "Montserrat-Bold.ttf");
 		font = Typeface.createFromAsset(getAssets(), "Montserrat-Regular.ttf");
 		
 		
+		
 		//get the user's visits from firebase
-		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Users/" + firstname + lastname + "/Visits/");
+		Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymWithoutSpaces + "/Users/" + firstname + lastname + "/Visits/");
 		
 		visitsref.addValueEventListener(new ValueEventListener() {
 			

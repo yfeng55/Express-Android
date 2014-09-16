@@ -86,7 +86,6 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		setContentView(R.layout.activity_home);
 		//get authtoken value from sharedPreferences
 		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);
-		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);
 		gym = prefs.getString("gym", "No Gym Selected");
 		gymAddress = prefs.getString("gymaddress", "dummy address");
 		gymCity = prefs.getString("gymcity", "dummy city");
@@ -107,10 +106,13 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		setTextViews();
 		
 		//ranging
+		
 		beaconManager = new BeaconManager(this);
+		
 		context = this;
 		rTask = new RangingTask(context, beaconManager);
 		rTask.execute(beaconManager);
+		
 		//drawGraph();
 	}
 	
