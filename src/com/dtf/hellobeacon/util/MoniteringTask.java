@@ -4,15 +4,20 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+import com.example.hellobeacon.R;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ServerValue;
 import com.firebase.client.ValueEventListener;
 
 public class MoniteringTask extends AsyncTask<BeaconManager, Void, Void> {
@@ -24,6 +29,8 @@ public class MoniteringTask extends AsyncTask<BeaconManager, Void, Void> {
 	protected SharedPreferences prefs;
 	private Boolean hasEntered = false;
 	private Boolean hasRetrievedVisits = false;
+	private SoundPool sp;
+	private int soundeffect = 0;
 	long visits;
 	
 	/**
@@ -36,6 +43,10 @@ public class MoniteringTask extends AsyncTask<BeaconManager, Void, Void> {
 	{
 		mContext = context;
 		this.bMan = bMan;
+		
+		//use SoundPool for short sounds like button presses
+		sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+		soundeffect = sp.load(mContext, R.raw.beep, 0);
 	}
 	
 	
@@ -58,15 +69,19 @@ public class MoniteringTask extends AsyncTask<BeaconManager, Void, Void> {
 			@Override
 			public void onExitedRegion(Region exitRegion) {
 				// TODO Auto-generated method stub
-				userLeavesGym();
+				//userLeavesGym();
+				Log.d("tracking", "exit region tracking beacons mang");
 				
+				String gymname = prefs.getString("gym", "No Gym Selected");
+				Toast.makeText(mContext, "Checked out " + gymname, Toast.LENGTH_LONG).show();
+				userLeavesGym();
 			}
 			
 			@Override
 			public void onEnteredRegion(Region enterRegion, List<Beacon> rangedBeacons) {
 				for (Beacon rangedBeacon : rangedBeacons) {
-					Log.d("tracking", "tracking beacons mang");
-					Log.d("tracking", "beaconName is " + rangedBeacon.getName());
+					Log.d("tracking", "enter region tracking beacons mang");
+					Log.d("tracking", "enter region beaconName is " + rangedBeacon.getName());
 					addVisitToUser();
 				}				
 			}
@@ -90,30 +105,33 @@ public class MoniteringTask extends AsyncTask<BeaconManager, Void, Void> {
 			String firstname = prefs.getString("firstName", "nobody");
 			String lastname = prefs.getString("lastName", "nobody");
 
-			Firebase newpushref = new Firebase("https://hellobeacon.firebaseio.com/" + firstname + lastname + "/visits");
-
+			String gymname = prefs.getString("gym", "No Gym Selected");
+			String gymnameWithoutSpaces = gymname.replaceAll("\\s","");
+			
+			Firebase visitsref = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymnameWithoutSpaces + "/Users/" + firstname + lastname + "/Visits/");
+			
+			Firebase gymVisitRef = new Firebase("https://hellobeacon.firebaseio.com/Gyms/" + gymnameWithoutSpaces + "/Visits/");
+			
+			Firebase newpushref = visitsref.push();
+			Firebase gympushref = gymVisitRef.push();
+			
 			//get current visit value
-			newpushref.addValueEventListener(new ValueEventListener() {
-				@Override
-				public void onDataChange(DataSnapshot snapshot) {
-					if(snapshot.getValue() != null){
-						visits = (Long) snapshot.getValue();
-						hasRetrievedVisits = true;
-						}
+			if(!hasEntered)
+			{
+				Log.d("pushing time stamp ", "Name - " + firstname + " " + lastname + " hr - " + DateUtil.getCurrentHour());
+				//pushing a new visit to the server; the time value is the Server's TIMESTAMP attribute
+				newpushref.setValue(ServerValue.TIMESTAMP);
+				hasEntered = true;
+				gympushref.setValue(ServerValue.TIMESTAMP);
+				//show toast message that says "checked in to gymname"
+				Toast.makeText(mContext, "Checked In to " + gymname, Toast.LENGTH_LONG).show();
+				
+				//play sound effect
+				
+				if(soundeffect != 0){
+					sp.play(soundeffect, 1, 1, 0, 0, 1);
 					}
 					
-				
-				@Override
-				public void onCancelled(FirebaseError error) {
-					System.err.println("Listener was cancelled");
-				}
-				
-				
-			});
-			if(hasRetrievedVisits && !hasEntered)
-			{
-				newpushref.setValue(visits + 1);
-				hasEntered = true;
 			}
 		}
 

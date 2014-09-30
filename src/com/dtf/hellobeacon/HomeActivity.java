@@ -21,6 +21,7 @@ import com.dtf.hellobeacon.model.Gym;
 import com.dtf.hellobeacon.util.DateUtil;
 import com.dtf.hellobeacon.util.GraphClickListener;
 import com.dtf.hellobeacon.util.GraphUtil;
+import com.dtf.hellobeacon.util.MoniteringTask;
 import com.dtf.hellobeacon.util.RangingTask;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
@@ -53,6 +54,7 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	private static final int REQUEST_ENABLE_BT = 0;
 	private static final Region ALL_ESTIMOTE_BEACONS_REGION = new Region("rid", null, null, null);
 	RangingTask rTask;
+	MoniteringTask mTask;
 	
 	private SharedPreferences prefs;
 	private ProgressBar spinner;
@@ -76,7 +78,6 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	
 	int currentVisitorCount = 0;
 	
-	BeaconManager beaconManager;
 	Context context;
 	
 	@Override
@@ -107,11 +108,17 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		
 		//ranging
 		
-		beaconManager = new BeaconManager(this);
+		//ExpressApp.beaconManager = new BeaconManager(this);
 		
 		context = this;
-		rTask = new RangingTask(context, beaconManager);
-		rTask.execute(beaconManager);
+		
+		//rTask = new RangingTask(context, ExpressApp.beaconManager);
+		//rTask.execute(ExpressApp.beaconManager);
+		
+		mTask = new MoniteringTask(context, ExpressApp.beaconManager);
+		mTask.execute(ExpressApp.beaconManager);
+		
+		
 		
 		//drawGraph();
 	}
@@ -166,10 +173,12 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		rTask.setHasEntered(false);
-		rTask.cancel(true);
+		//rTask.setHasEntered(false);
+		//rTask.cancel(true);
+		//mTask.setHasEntered(false);
+		mTask.cancel(true);
 		Log.d("destroyed", "destroyedddd");
-		beaconManager.disconnect();
+		ExpressApp.beaconManager.disconnect();
 	}
 	
 
@@ -178,13 +187,13 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		super.onStart();
 
 		// Check if device supports Bluetooth Low Energy.
-		if (!beaconManager.hasBluetooth()) {
+		if (!ExpressApp.beaconManager.hasBluetooth()) {
 			Toast.makeText(this, "Device does not have Bluetooth Low Energy", Toast.LENGTH_LONG).show();
 			return;
 		}
 
 		// If Bluetooth is not enabled, let user enable it.
-		if (!beaconManager.isBluetoothEnabled()) {
+		if (!ExpressApp.beaconManager.isBluetoothEnabled()) {
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 		} else {
@@ -198,15 +207,24 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	 */
 	private void connectToService() {
 		getActionBar().setSubtitle("Scanning...");
-		beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+		ExpressApp.beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
 			@Override
 			public void onServiceReady() {
+				/*
 				try {
-					beaconManager.startRanging(ALL_ESTIMOTE_BEACONS_REGION);
+					ExpressApp.beaconManager.startRanging(ALL_ESTIMOTE_BEACONS_REGION);
 				} catch (RemoteException e) {
 					Toast.makeText(HomeActivity.this, "Cannot start ranging, something terrible happened",
 							Toast.LENGTH_LONG).show();
 					Log.d("fail", "Cannot start ranging", e);
+				}
+				*/
+				
+				try {
+					ExpressApp.beaconManager.startMonitoring(ALL_ESTIMOTE_BEACONS_REGION);
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		});

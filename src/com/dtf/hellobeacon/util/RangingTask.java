@@ -136,7 +136,7 @@ public class RangingTask extends AsyncTask<BeaconManager, Void, Void> {
 				//play sound effect
 				if(soundeffect != 0){
 					sp.play(soundeffect, 1, 1, 0, 0, 1);
-				}
+					}
 					
 				}
 			}

@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 public class ExpressApp extends Application {
 
-	BeaconManager beaconManager;
+	public static BeaconManager beaconManager;
 	Context context;
 	
 	RangingTask rTask;
@@ -28,7 +28,9 @@ public class ExpressApp extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+		//startService();
+		//beaconManager.connect(callback);
+		beaconManager = new BeaconManager(this);
 	}
 	
 }
