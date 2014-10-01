@@ -17,14 +17,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -112,13 +110,17 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.viewPersonalStats:
 			Intent i = new Intent(this, MyStatsActivity.class);
 			startActivity(i);
+			return true;
+		case R.id.help:
+			Intent k = new Intent(this, HelpActivity.class);
+			startActivity(k);
 			return true;
 		case R.id.about:
 			Intent j = new Intent(this, AboutActivity.class);

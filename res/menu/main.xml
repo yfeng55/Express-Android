@@ -6,10 +6,15 @@
         android:id="@+id/viewPersonalStats"
         android:title="View Personal Stats"
         android:showAsAction="never"/>
-    
+        
     <item
+        android:id="@+id/help"
+        android:title="Help"
+        android:showAsAction="never"/>
+
+	<item
         android:id="@+id/about"
         android:title="About"
         android:showAsAction="never"/>
-
+        
 </menu>
