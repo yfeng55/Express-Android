@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -28,7 +27,6 @@ public class MyStatsActivity extends Activity {
 	private String firstname;
 	private String lastname;
 	private String gym;
-	private TextView lastvisitheader;
 	private ProgressBar spinner;
 	
 	private ProgressBar weekProgress;
@@ -40,9 +38,6 @@ public class MyStatsActivity extends Activity {
 	private TextView monthvisitsTV;
 	private TextView ytdvisitsTV;
 	private TextView lastvisitTV;
-	
-	Typeface boldfont;
-	Typeface font;
 	
 	private int week_visits;
 	private int month_visits;
@@ -62,9 +57,7 @@ public class MyStatsActivity extends Activity {
 		spinner = (ProgressBar)findViewById(R.id.progressBar1);
 		spinner.setVisibility(View.VISIBLE);
 		
-		//set view objects
-		lastvisitheader = (TextView) findViewById(R.id.tv_lastvisitheader);
-		
+		//set view objects		
 		weekvisitsTV = (TextView) findViewById(R.id.tv_weeklyvisits);
 		monthvisitsTV = (TextView) findViewById(R.id.tv_monthlyvisits);
 		ytdvisitsTV = (TextView) findViewById(R.id.tv_ytdvisits);
@@ -80,12 +73,9 @@ public class MyStatsActivity extends Activity {
 		firstname = prefs.getString("firstName", "No First Name");
 		lastname = prefs.getString("lastName", "No Last Name");
 		gym = prefs.getString("gym", "No Gym Selected");
-		//set header and font
+		
+		//set header
 		String gymWithoutSpaces = gym.replaceAll("\\s+","");
-		
-		boldfont = Typeface.createFromAsset(getAssets(), "Montserrat-Bold.ttf");
-		font = Typeface.createFromAsset(getAssets(), "Montserrat-Regular.ttf");
-		
 		
 		
 		//get the user's visits from firebase
@@ -132,40 +122,20 @@ public class MyStatsActivity extends Activity {
 					
 				}
 				
-				
-				
-//				Log.i("EEE", "ytd visits: " + Long.toString(ytd_visits));
-//				Log.i("EEE", "monthly visits: " + Long.toString(month_visits));
-//				Log.i("EEE", "weekly visits: " + Long.toString(week_visits));
-				
 				//hide the loading spinner before displaying content
 				spinner.setVisibility(View.GONE);
 				mainLayout.setVisibility(LinearLayout.VISIBLE);
-				
-				//display progress bars with the number of visits set as values
-				//weekProgress.setProgress(week_visits);
-				//monthProgress.setProgress(month_visits);
-				//ytdProgress.setProgress(ytd_visits);
-				
+
 				//set text for number of visits
 				weekvisitsTV.setText(Integer.toString(week_visits) + " Visits");
-				weekvisitsTV.setTypeface(font);
-				
 				monthvisitsTV.setText(Integer.toString(month_visits) + " Visits");
-				monthvisitsTV.setTypeface(font);
-				
 				ytdvisitsTV.setText(Integer.toString(ytd_visits) + " Visits");
-				ytdvisitsTV.setTypeface(font);
 				
 				df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
 				Date date = new Date(Long.valueOf(last_t).longValue());
 				lastvisitTV.setText(df.format(date));
-				
-				lastvisitheader.setTypeface(font);
-				lastvisitTV.setTypeface(font);
-				
 
-				//animate progressbars (setting max values higher and multiplying final values for a smoother animation)
+				//animate progress bars (setting max values higher and multiplying final values for a smoother animation)
 				weekProgress.setMax(700);
 				weekProgress.startAnimation(ProgressBarAnimation.setAnimation(weekProgress, 0, week_visits*100));
 				
@@ -174,9 +144,6 @@ public class MyStatsActivity extends Activity {
 				
 				ytdProgress.setMax(3650);
 				ytdProgress.startAnimation(ProgressBarAnimation.setAnimation(ytdProgress, 0, ytd_visits*10));
-				
-				
-				
 				
 				
 			}

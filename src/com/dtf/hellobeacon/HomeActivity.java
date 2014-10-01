@@ -1,26 +1,7 @@
 package com.dtf.hellobeacon;
-
-import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
-import pl.flex_it.androidplot.MultitouchPlot;
-
-import com.androidplot.series.XYSeries;
-import com.androidplot.xy.BoundaryMode;
-import com.androidplot.xy.LineAndPointFormatter;
-import com.androidplot.xy.SimpleXYSeries;
-import com.androidplot.xy.XYStepMode;
 import com.dtf.hellobeacon.model.Gym;
 import com.dtf.hellobeacon.util.DateUtil;
 import com.dtf.hellobeacon.util.GraphClickListener;
-import com.dtf.hellobeacon.util.GraphUtil;
 import com.dtf.hellobeacon.util.MoniteringTask;
 import com.dtf.hellobeacon.util.RangingTask;
 import com.estimote.sdk.BeaconManager;
@@ -36,8 +17,6 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -57,7 +36,6 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	MoniteringTask mTask;
 	
 	private SharedPreferences prefs;
-	private ProgressBar spinner;
 	
 	protected TextView gymName;
 	protected TextView openCloseTime;
@@ -72,9 +50,6 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	protected int openHour;
 	protected int closeHour;
 	protected int capacity;
-	//
-	private String firstname;
-	private String lastname;
 	
 	int currentVisitorCount = 0;
 	
@@ -107,7 +82,6 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		setTextViews();
 		
 		//ranging
-		
 		//ExpressApp.beaconManager = new BeaconManager(this);
 		
 		context = this;
@@ -118,23 +92,13 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		mTask = new MoniteringTask(context, ExpressApp.beaconManager);
 		mTask.execute(ExpressApp.beaconManager);
 		
-		
-		
-		//drawGraph();
 	}
 	
 	public void setTextViews() {
 		
-		Typeface font = Typeface.createFromAsset(getAssets(), "Montserrat-Regular.ttf");
-		
-		
 		gymName = (TextView)findViewById(R.id.gymNameText);
 		openCloseTime = (TextView)findViewById(R.id.openCloseTimeText);
 		currentCapacity = (TextView)findViewById(R.id.currentCapacity);
-			
-		gymName.setTypeface(font);
-		openCloseTime.setTypeface(font);
-		currentCapacity.setTypeface(font);
 		
 		Log.d("name", "gym data name is " + gymData.getName() + " " + gym);
 		gymName.setText(gymData.getName());
@@ -245,127 +209,7 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-	
-	/*
-	
-	private void drawGraph(){
-		MultitouchPlot plot = (MultitouchPlot) findViewById(R.id.multitouchPlot1);
-		plot.setGraphClickListener(this);
-		//show spinner loading
-		//spinner = (ProgressBar) findViewById(R.id.progressBar);
-		//spinner.setVisibility(View.VISIBLE);
-		plot.setClickableIntent(true);
-		//styling
-		GraphUtil.setBordersandPadding(plot);
-		GraphUtil.setColors(plot);
-        GraphUtil.configureLegend(plot);
-		
-        // Create an array of y-values to plot:
-        Number[] y_values = new Number[closeHour-openHour];
-        for(int index = 0; index < closeHour - openHour; index++) {
-        	//y_values[index] = getVisitsAtHour(index + openHour);
-        	y_values[index] = 0;
-        }
-        
-        // create an array of x-values: (8AM to 10PM in 1hr increments - July 25th EST)
-        Number[] x_values = {
-        		1406271600,  // 12AM
-        		1406275200,  // 1AM
-        		1406278800,  // 2AM
-        		1406282400,  // 3AM
-        		1406286000,  // 4AM
-        		1406289600,  // 5AM
-        		1406293200,  // 6AM
-        		1406296800,  // 7AM
-        		1406300400,  // 8AM
-        		1406304000,  // 9AM
-        		1406307600,  // 10AM
-        		1406311200,  // 11AM
-        		1406314800,  // 12PM
-        		1406318400,  // 1PM
-        		1406322000,  // 2PM
-        		1406325600,  // 3PM
-        		1406329200,  // 4PM
-        		1406332800,  // 5PM
-        		1406336400,  // 6PM
-        		1406340000,  // 7PM
-        		1406343600,  // 8PM
-        		1406347200,  // 9PM
-        		1406350800,  // 10PM
-        		1406354400  // 11PM
-        };
 
-        // Turn the above arrays into XYSeries:
-        XYSeries series1 = new SimpleXYSeries(
-        		Arrays.asList(x_values),
-        		Arrays.asList(y_values),          	// SimpleXYSeries takes a List so turn our array into a List
-                "Capacity Level");                  // Set the display title of the series
-
-        // Create a formatter to use for drawing a series using LineAndPointRenderer:
-        LineAndPointFormatter series1Format = new LineAndPointFormatter(
-                Color.rgb(102, 204, 255),              // line color
-                Color.rgb(102, 204, 255),              // point color
-                Color.rgb(189, 233, 255));             // fill color
-        
-        //change the line width
-        Paint paint = series1Format.getLinePaint();
-        paint.setStrokeWidth(4);
-        series1Format.setLinePaint(paint);
-
-        // Add series1 to the xyplot:
-        plot.addSeries(series1, series1Format);
-
-        // Reduce the number of domain and range labels
-        plot.setTicksPerRangeLabel(2);
-        //multitouchPlot.setTicksPerDomainLabel(3);
-
-        //set gridlines
-        plot.setRangeStep(XYStepMode.SUBDIVIDE, 9);
-        plot.setDomainStep(XYStepMode.SUBDIVIDE, 6);
-        
-        //set range and domain label widths
-        plot.getGraphWidget().setRangeLabelWidth(70);
-        plot.getGraphWidget().setDomainLabelWidth(50);
-        
-        //set textsize of y-axis and x-axis labels
-        plot.getGraphWidget().getRangeLabelPaint().setTextSize(35);
-        plot.getGraphWidget().getDomainLabelPaint().setTextSize(30);
-        
-        //set y-axis label format (display numbers without decimal places)
-        plot.setRangeValueFormat(new DecimalFormat("#"));
-        
-        //display times as the domain labels
-        plot.setDomainValueFormat(new Format() {
-
-            private SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
-
-            @Override
-            public StringBuffer format(Object obj, StringBuffer toAppendTo, FieldPosition pos) {
-                // because our timestamps are in seconds and SimpleDateFormat expects milliseconds
-                // we multiply our timestamp by 1000:
-                long timestamp = ((Number) obj).longValue() * 1000;
-                Date date = new Date(timestamp);
-                return dateFormat.format(date, toAppendTo, pos);
-            }
-
-            @Override
-            public Object parseObject(String source, ParsePosition pos) {
-                return null;
-            }
-        });
-        
-        
-        // By default, AndroidPlot displays developer guides to aid in laying out your plot.
-        // To get rid of them call disableAllMarkup():
-        plot.disableAllMarkup();
-        plot.setRangeBoundaries(0, 100, BoundaryMode.FIXED);
-    
-		// show graph element and hide spinner
-		plot.setVisibility(View.VISIBLE);
-		//spinner.setVisibility(View.GONE);
-        
-	}
-	 */
 	
 	protected void retrieveFirebaseValues() {
 		

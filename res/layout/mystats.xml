@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customfontdemo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -23,7 +24,7 @@
         android:orientation="vertical" >
 
         
-        <TextView
+        <com.dtf.hellobeacon.views.CustomTextView
             android:id="@+id/tv_lastvisitheader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -32,11 +33,12 @@
             android:gravity="left"
             android:textColor="@color/darkgray"
             android:textSize="22sp"
-            android:textScaleX=".9"
+            
 	        android:textStyle="bold"
-            android:text="Last Visit On" />
+            android:text="Last Visit On"
+            customfontdemo:fontName="OpenSans-Regular.ttf" />
         
-        <TextView
+        <com.dtf.hellobeacon.views.CustomTextView
             android:id="@+id/tv_lastvisit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,8 +47,9 @@
             android:gravity="left"
             android:textColor="@color/darkgray"
             android:textSize="18sp"
-            android:textScaleX=".9"
-            android:text="Last Visit" />
+            
+            android:text="Last Visit"
+            customfontdemo:fontName="OpenSans-Regular.ttf" />
         
         
         <View
@@ -59,7 +62,7 @@
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
 	        android:layout_marginTop="25dp" >
-	        <TextView
+	        <com.dtf.hellobeacon.views.CustomTextView
 	            android:id="@+id/tv_weeklyvisits"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -70,9 +73,10 @@
 	            android:text="Visits"
 	            android:textColor="@color/darkgray"
 	            android:textSize="22sp"
-	            android:textScaleX=".9"
-	            android:textStyle="bold" />
-	        <TextView
+	            
+	            android:textStyle="bold"
+	            customfontdemo:fontName="OpenSans-Regular.ttf" />
+	        <com.dtf.hellobeacon.views.CustomTextView
 	            android:id="@+id/tv_weeklyprogress"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -82,7 +86,8 @@
 	            android:gravity="right"
 	            android:text="This Week"
 	            android:textColor="@color/darkgray"
-	            android:textSize="15sp" />
+	            android:textSize="15sp"
+	            customfontdemo:fontName="OpenSans-Regular.ttf" />
         </LinearLayout>
 
         <ProgressBar
@@ -112,7 +117,7 @@
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
 	        android:layout_marginTop="25dp" >
-	        <TextView
+	        <com.dtf.hellobeacon.views.CustomTextView
 	            android:id="@+id/tv_monthlyvisits"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -123,9 +128,10 @@
 	            android:text="Visits"
 	            android:textColor="@color/darkgray"
 	            android:textSize="22sp"
-	            android:textScaleX=".9"
-	            android:textStyle="bold" />
-	        <TextView
+	            
+	            android:textStyle="bold"
+	            customfontdemo:fontName="OpenSans-Regular.ttf" />
+	        <com.dtf.hellobeacon.views.CustomTextView
 	            android:id="@+id/tv_monthlyprogress"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -135,7 +141,8 @@
 	            android:gravity="right"
 	            android:text="This Month"
 	            android:textColor="@color/darkgray"
-	            android:textSize="15sp" />
+	            android:textSize="15sp"
+	            customfontdemo:fontName="OpenSans-Regular.ttf" />
         </LinearLayout>
                 
         <ProgressBar
@@ -167,7 +174,7 @@
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
 	        android:layout_marginTop="25dp" >
-	        <TextView
+	        <com.dtf.hellobeacon.views.CustomTextView
 	            android:id="@+id/tv_ytdvisits"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -178,9 +185,10 @@
 	            android:text="Visits"
 	            android:textColor="@color/darkgray"
 	            android:textSize="22sp"
-	            android:textScaleX=".9"
-	            android:textStyle="bold" />
-	        <TextView
+	            
+	            android:textStyle="bold"
+	            customfontdemo:fontName="OpenSans-Regular.ttf" />
+	        <com.dtf.hellobeacon.views.CustomTextView
 	            android:id="@+id/tv_ytdprogress"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
@@ -190,7 +198,8 @@
 	            android:gravity="right"
 	            android:text="Year To Date"
 	            android:textColor="@color/darkgray"
-	            android:textSize="15sp" />
+	            android:textSize="15sp"
+	            customfontdemo:fontName="OpenSans-Regular.ttf" />
         </LinearLayout>
 		
         <ProgressBar
