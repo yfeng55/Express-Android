@@ -85,7 +85,7 @@ public class RegisterActivity extends Activity {
 		editor.commit();
 
 		//after registering, start the next activity
-		Intent i = new Intent(this, HomeActivity.class);
+		Intent i = new Intent(this, HelpActivity.class);
 		startActivity(i);
 		
 

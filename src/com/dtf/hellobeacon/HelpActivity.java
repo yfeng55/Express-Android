@@ -55,7 +55,7 @@ public class HelpActivity extends FragmentActivity {
 		// Add either a "next" or "finish" button to the action bar, depending on which page
         // is currently selected.
         MenuItem item = menu.add(Menu.NONE, R.id.action_next, Menu.NONE,
-                (mPager.getCurrentItem() == mPagerAdapter.getCount() - 1)
+                (mPager.getCurrentItem() + 1 == mPagerAdapter.getCount())
                         ? R.string.action_finish
                         : R.string.action_next);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
@@ -80,10 +80,19 @@ public class HelpActivity extends FragmentActivity {
 			return true;
 
 		case R.id.action_next:
-			// Advance to the next step in the wizard. If there is no next step,
-			// setCurrentItem
-			// will do nothing.
-			mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+						
+			//if on the last page
+			if(mPager.getCurrentItem()+1 == mPagerAdapter.getCount()){
+				Intent i = new Intent(this, HomeActivity.class);
+				finish();
+				startActivity(i);
+			}else{
+				// Advance to the next step in the wizard. If there is no next step,
+				// setCurrentItem
+				// will do nothing.
+				mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+			}
+			
 			return true;
 		}
 

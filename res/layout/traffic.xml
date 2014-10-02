@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customfontdemo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 	
-    <TextView
+    <com.dtf.hellobeacon.views.CustomTextView
         android:id="@+id/tv_GymName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -13,7 +14,8 @@
         android:textStyle="bold"
         android:textColor="@color/darkgray"
         android:gravity="center"
-        android:text="Gym Name" />
+        android:text="Gym Name"
+        customfontdemo:fontName="OpenSans-Semibold.ttf" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
