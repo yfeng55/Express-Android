@@ -1,17 +1,4 @@
 package com.dtf.hellobeacon;
-import com.dtf.hellobeacon.model.Gym;
-import com.dtf.hellobeacon.util.DateUtil;
-import com.dtf.hellobeacon.util.GraphClickListener;
-import com.dtf.hellobeacon.util.MoniteringTask;
-import com.dtf.hellobeacon.util.RangingTask;
-import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Region;
-import com.example.hellobeacon.R;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -26,6 +13,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dtf.hellobeacon.model.Gym;
+import com.dtf.hellobeacon.util.DateUtil;
+import com.dtf.hellobeacon.util.GraphClickListener;
+import com.dtf.hellobeacon.util.MoniteringTask;
+import com.dtf.hellobeacon.util.RangingTask;
+import com.dtf.hellobeacon.views.ProgressWheel;
+import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.Region;
+import com.example.hellobeacon.R;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
 public class HomeActivity extends Activity implements GraphClickListener {
 	
 	private static final int REQUEST_ENABLE_BT = 0;
@@ -38,6 +39,7 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	protected TextView gymName;
 	protected TextView openCloseTime;
 	protected TextView currentCapacity;
+	protected ProgressWheel pw;
 	
 	protected Gym gymData;
 	protected String gym;
@@ -48,6 +50,10 @@ public class HomeActivity extends Activity implements GraphClickListener {
 	protected int openHour;
 	protected int closeHour;
 	protected int capacity;
+	protected int capacitypercent;
+	
+	boolean running;
+	int progress = 0;
 	
 	int currentVisitorCount = 0;
 	
@@ -58,6 +64,8 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_home);
+		
+		
 		//get authtoken value from sharedPreferences
 		prefs = this.getSharedPreferences("com.dtf.hellobeacon", 0);
 		gym = prefs.getString("gym", "No Gym Selected");
@@ -79,6 +87,7 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		
 		setTextViews();
 		
+		
 		//ranging
 		//ExpressApp.beaconManager = new BeaconManager(this);
 		
@@ -96,12 +105,14 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		
 		gymName = (TextView)findViewById(R.id.gymNameText);
 		openCloseTime = (TextView)findViewById(R.id.openCloseTimeText);
-		currentCapacity = (TextView)findViewById(R.id.currentCapacity);
+//		currentCapacity = (TextView)findViewById(R.id.currentCapacity);
 		
 		Log.d("name", "gym data name is " + gymData.getName() + " " + gym);
 		gymName.setText(gymData.getName());
 		openCloseTime.setText(DateUtil.convertHourToTime(openHour, 0) + " to " + DateUtil.convertHourToTime(closeHour, 0));
-		currentCapacity.setText(String.valueOf(currentVisitorCount/capacity) + "%");
+		
+//		capacitypercent = currentVisitorCount/capacity;
+//		currentCapacity.setText(String.valueOf(capacitypercent) + "%");
 	}
 	
 	@Override
@@ -224,13 +235,42 @@ public class HomeActivity extends Activity implements GraphClickListener {
 			public void onDataChange(DataSnapshot snapshot) {	
 				Log.d("retrieveFirbaseVals", "child count is " + snapshot.getChildrenCount());
 				currentVisitorCount = (int)snapshot.getChildrenCount();
-				currentCapacity.setText(String.valueOf(currentVisitorCount/(capacity/100)) + "%");
-				currentCapacity.setVisibility(View.VISIBLE);
+				
+				capacitypercent = (int)((float)currentVisitorCount / (float)capacity * 100);
+				if(capacitypercent > 100){
+					capacitypercent = 100;
+				}
+				
+				
+								
+
+				//draw capacity circle
+				pw = (ProgressWheel) findViewById(R.id.capacity_circle);
+				final Runnable r = new Runnable() {
+					public void run() {
+						running = true;
+						
+						//adjust capacity percent to be out of 120 (because there are 120 increments)
+						while(progress < capacitypercent * 1.2) {
+							pw.incrementProgress();
+							pw.setText(Integer.toString((int)(progress/1.2)+1) + "%", "capacity");
+							progress++;
+							try {
+								Thread.sleep(15);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+						}
+						running = false;
+					}
+		        };
+				
+		        Thread s = new Thread(r);
+				s.start();
 			}
 			@Override
 			public void onCancelled(FirebaseError arg0) {
 				// TODO Auto-generated method stub
-				
 				}
 			});	
 		
