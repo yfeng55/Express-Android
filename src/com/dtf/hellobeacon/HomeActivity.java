@@ -255,4 +255,9 @@ public class HomeActivity extends Activity implements GraphClickListener {
 		Intent i = new Intent(this, ClassScheduleActivity.class);
 		startActivity(i);
 	}
+	
+	public void toViewPagerTest(View v) {
+		Intent i = new Intent(this, ViewPagerTestActivity.class);
+		startActivity(i);
+	}
 }

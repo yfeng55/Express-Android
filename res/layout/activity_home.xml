@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="180dp" >     
-        
+        android:layout_marginTop="180dp" >
+
         <com.dtf.hellobeacon.views.CustomTextView
             android:id="@+id/gymNameText"
             android:layout_width="wrap_content"
@@ -70,7 +70,6 @@
             android:textStyle="bold"
             android:visibility="invisible"
             customfontdemo:fontName="OpenSans-Regular.ttf" />
-
     </RelativeLayout>
 
     <Button
@@ -90,5 +89,14 @@
         android:layout_marginTop="430dp"
         android:onClick="toClassPage"
         android:text="Class" />
+
+    <Button
+        android:id="@+id/toViewPagerTest"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="430dp"
+        android:onClick="toViewPagerTest"
+        android:text="viewPagerTest" />
 
 </FrameLayout>

@@ -11,6 +11,9 @@ public class HomeFragment extends HomePageFragment{
 
 	public static HomeFragment newInstance() {
 		HomeFragment fragment = new HomeFragment();
+		
+
+		
 		return fragment;
 	}
 	

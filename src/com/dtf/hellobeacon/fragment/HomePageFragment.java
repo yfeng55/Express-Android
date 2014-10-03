@@ -30,6 +30,7 @@ public class HomePageFragment extends Fragment {
 	}
 	
     public HomePageFragment() {
+    	super();
     }
 
     @Override
