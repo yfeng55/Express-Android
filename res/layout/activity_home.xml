@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:customfontdemo="http://schemas.android.com/apk/res-auto"
+    xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
-    <ImageView
-        android:id="@+id/gymLogo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|top"
-        android:src="@drawable/home_logo" >
-    </ImageView>
 
     <RelativeLayout
         android:id="@+id/gymInfoHolder"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="180dp" >
+        android:layout_marginTop="20dp" >
 
         <com.dtf.hellobeacon.views.CustomTextView
             android:id="@+id/gymNameText"
@@ -41,35 +34,26 @@
             android:layout_marginTop="8dp"
             android:text=""
             android:textColor="@color/darkblue"
-            android:textSize="22sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             customfontdemo:fontName="OpenSans-Regular.ttf" />
 
-        <com.dtf.hellobeacon.views.CustomTextView
-            android:id="@+id/capacityTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.dtf.hellobeacon.views.ProgressWheel
+            android:id="@+id/capacity_circle"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
             android:layout_below="@id/openCloseTimeText"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:text="Capacity"
-            android:textColor="@color/darkblue"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            customfontdemo:fontName="OpenSans-Regular.ttf" />
-
-        <com.dtf.hellobeacon.views.CustomTextView
-            android:id="@+id/currentCapacity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/capacityTitle"
-            android:layout_centerHorizontal="true"
-            android:text=""
-            android:textColor="@color/darkblue"
-            android:textSize="48sp"
-            android:textStyle="bold"
-            android:visibility="invisible"
-            customfontdemo:fontName="OpenSans-Regular.ttf" />
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            ProgressWheel:barColor="#0097D6"
+            ProgressWheel:barLength="60dp"
+            ProgressWheel:barWidth="10dp"
+            ProgressWheel:labeltext="Capacity"
+            ProgressWheel:rimColor="#330097D6"
+            ProgressWheel:rimWidth="2dp"
+            ProgressWheel:textColor="#222"
+            ProgressWheel:textSize="27sp"
+            ProgressWheel:valuetext="0%" />
     </RelativeLayout>
 
     <Button
@@ -89,14 +73,13 @@
         android:layout_marginTop="430dp"
         android:onClick="toClassPage"
         android:text="Class" />
-
+    
     <Button
         android:id="@+id/toViewPagerTest"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_marginTop="430dp"
-        android:onClick="toViewPagerTest"
-        android:text="viewPagerTest" />
-
+        android:onClick="toClassPage"
+        android:text="test" />
 </FrameLayout>
