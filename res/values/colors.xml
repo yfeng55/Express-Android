@@ -5,6 +5,7 @@
  <color name="transparent">#00000000</color>
  <color name="date_color">#999999</color>
  <color name="black">#000000</color>
+ <color name="lightergray">#ECECEC</color>
  <color name="lightgray">#bfbfbf</color>
  <color name="darkgray">#757575</color>
  <color name="lightblue">#239edb</color>

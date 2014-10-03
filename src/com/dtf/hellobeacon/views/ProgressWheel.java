@@ -1,5 +1,4 @@
 package com.dtf.hellobeacon.views;
-import com.example.hellobeacon.R;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -7,10 +6,13 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.example.hellobeacon.R;
 
 
 /**
@@ -32,7 +34,8 @@ public class ProgressWheel extends View {
     private int barLength = 60;
     private int barWidth = 20;
     private int rimWidth = 20;
-    private int textSize = 20;
+    private int textSize_value = 20;
+    private int textSize_label = 20;
     private float contourSize = 0;
 
     //Padding (with defaults)
@@ -52,9 +55,14 @@ public class ProgressWheel extends View {
     private Paint barPaint = new Paint();
     private Paint circlePaint = new Paint();
     private Paint rimPaint = new Paint();
-    private Paint textPaint = new Paint();
+    private Paint textPaint_value = new Paint();
+    private Paint textPaint_label = new Paint();
     private Paint contourPaint = new Paint();
-
+    
+    //Fonts
+    private Typeface font_bold;
+    private Typeface font_regular;
+    
     //Rectangles
     @SuppressWarnings("unused")
     private RectF rectBounds = new RectF();
@@ -182,7 +190,12 @@ public class ProgressWheel extends View {
      * draw the progress wheel
      */
     private void setupPaints() {
-        barPaint.setColor(barColor);
+
+        //setup fonts
+    	font_regular = Typeface.createFromAsset(getContext().getAssets(),"fonts/OpenSans-Regular.ttf"); 
+    	font_bold = Typeface.createFromAsset(getContext().getAssets(),"fonts/OpenSans-Semibold.ttf"); 
+    	
+    	barPaint.setColor(barColor);
         barPaint.setAntiAlias(true);
         barPaint.setStyle(Style.STROKE);
         barPaint.setStrokeWidth(barWidth);
@@ -196,10 +209,17 @@ public class ProgressWheel extends View {
         circlePaint.setAntiAlias(true);
         circlePaint.setStyle(Style.FILL);
 
-        textPaint.setColor(textColor);
-        textPaint.setStyle(Style.FILL);
-        textPaint.setAntiAlias(true);
-        textPaint.setTextSize(textSize);
+        textPaint_value.setColor(textColor);
+        textPaint_value.setStyle(Style.FILL);
+        textPaint_value.setAntiAlias(true);
+        textPaint_value.setTextSize(textSize_value);
+        textPaint_value.setTypeface(font_regular);
+        
+        textPaint_label.setColor(textColor);
+        textPaint_label.setStyle(Style.FILL);
+        textPaint_label.setAntiAlias(true);
+        textPaint_label.setTextSize(textSize_label);
+        textPaint_label.setTypeface(font_regular);
 
         contourPaint.setColor(contourColor);
         contourPaint.setAntiAlias(true);
@@ -269,8 +289,9 @@ public class ProgressWheel extends View {
         barLength = (int) a.getDimension(R.styleable.ProgressWheel_barLength,
                 barLength);
 
-        textSize = (int) a.getDimension(R.styleable.ProgressWheel_textSize,
-                textSize);
+        //TEXT SIZES
+        textSize_value = (int) a.getDimension(R.styleable.ProgressWheel_textSize_value, textSize_value);
+        textSize_label = (int) a.getDimension(R.styleable.ProgressWheel_textSize_label, textSize_value);
 
         textColor = (int) a.getColor(R.styleable.ProgressWheel_textColor,
                 textColor);
@@ -314,18 +335,18 @@ public class ProgressWheel extends View {
             canvas.drawArc(circleBounds, -90, progress, false, barPaint);
         }
         //Draw the text (attempts to center it horizontally and vertically)
-        float textHeight = textPaint.descent() - textPaint.ascent();
-        float verticalTextOffset = (textHeight / 2) - textPaint.descent();
+        float textHeight = textPaint_value.descent() - textPaint_value.ascent();
+        float verticalTextOffset = (textHeight / 2) - textPaint_value.descent();
 
         for (String s : splitValueText) {
-            float horizontalTextOffset = textPaint.measureText(s) / 2;
+            float horizontalTextOffset = textPaint_value.measureText(s) / 2;
             canvas.drawText(s, this.getWidth() / 2 - horizontalTextOffset,
-                    this.getHeight() / 2 + verticalTextOffset - 50, textPaint);
+                    this.getHeight() / 2 + verticalTextOffset - 20, textPaint_value);
         }
         for (String s : splitLabelText) {
-            float horizontalTextOffset = textPaint.measureText(s) / 2;
+            float horizontalTextOffset = textPaint_label.measureText(s) / 2;
             canvas.drawText(s, this.getWidth() / 2 - horizontalTextOffset,
-                    this.getHeight() / 2 + verticalTextOffset + 50, textPaint);
+                    this.getHeight() / 2 + verticalTextOffset + 70, textPaint_label);
         }
     }
 
@@ -346,7 +367,7 @@ public class ProgressWheel extends View {
      */
     public void resetCount() {
         progress = 0;
-        setText("0%", "Capacity");
+        setText("0", "CAPACITY");
         invalidate();
     }
 
@@ -432,13 +453,22 @@ public class ProgressWheel extends View {
         this.barWidth = barWidth;
     }
 
-    public int getTextSize() {
-        return textSize;
+    //get and set Value textsize
+    public int getValueTextSize() {
+        return textSize_value;
     }
-
-    public void setTextSize(int textSize) {
-        this.textSize = textSize;
+    public void setValueTextSize(int textSize) {
+        this.textSize_value = textSize;
     }
+    
+    //get and set Label textsize
+    public int getLabelTextSize() {
+        return textSize_label;
+    }
+    public void setLabelTextSize(int textSize) {
+        this.textSize_label = textSize;
+    }
+    
 
     public int getPaddingTop() {
         return paddingTop;

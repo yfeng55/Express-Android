@@ -253,7 +253,7 @@ public class HomeActivity extends Activity implements GraphClickListener {
 						//adjust capacity percent to be out of 120 (because there are 120 increments)
 						while(progress < capacitypercent * 1.2) {
 							pw.incrementProgress();
-							pw.setText(Integer.toString((int)(progress/1.2)+1) + "%", "capacity");
+							pw.setText(Integer.toString((int)(progress/1.2)+1), "CAPACITY");
 							progress++;
 							try {
 								Thread.sleep(15);

@@ -22,7 +22,6 @@
             android:text=""
             android:textColor="@color/darkblue"
             android:textSize="22sp"
-            android:textStyle="bold"
             customfontdemo:fontName="OpenSans-Regular.ttf" />
 
         <com.dtf.hellobeacon.views.CustomTextView
@@ -35,51 +34,66 @@
             android:text=""
             android:textColor="@color/darkblue"
             android:textSize="25sp"
-            android:textStyle="bold"
-            customfontdemo:fontName="OpenSans-Regular.ttf" />
+            customfontdemo:fontName="OpenSans-Semibold.ttf" />
 
         <com.dtf.hellobeacon.views.ProgressWheel
             android:id="@+id/capacity_circle"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="230dp"
+            android:layout_height="230dp"
             android:layout_below="@id/openCloseTimeText"
             android:layout_centerInParent="true"
-            android:layout_marginTop="20dp"
-            ProgressWheel:barColor="#0097D6"
+            android:layout_marginTop="30dp"
+            ProgressWheel:barColor="@color/darkblue"
             ProgressWheel:barLength="60dp"
             ProgressWheel:barWidth="10dp"
-            ProgressWheel:labeltext="Capacity"
-            ProgressWheel:rimColor="#330097D6"
-            ProgressWheel:rimWidth="2dp"
-            ProgressWheel:textColor="#222"
-            ProgressWheel:textSize="27sp"
-            ProgressWheel:valuetext="0%" />
+            ProgressWheel:labeltext="CAPACITY"
+            ProgressWheel:rimColor="@color/lightgray"
+            ProgressWheel:rimWidth="3dp"
+            ProgressWheel:textColor="@color/darkblue"
+            ProgressWheel:textSize_value="80sp"
+            ProgressWheel:textSize_label="15sp"
+            ProgressWheel:valuetext="0" />
+        
+        <Button
+            android:id="@+id/toTrafficActivity"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/capacity_circle"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/flat_selector"
+            android:onClick="toTrafficActivity"
+            android:text="Traffic Trend"
+            android:textColor="@color/darkgray" />
+        
+        <Button
+            android:id="@+id/toClassPage"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toTrafficActivity"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/flat_selector"
+            android:onClick="toClassPage"
+            android:text="Class Schedule"
+            android:textColor="@color/darkgray" />
+    		
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/toTrafficActivity"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="380dp"
-        android:onClick="toTrafficActivity"
-        android:text="Traffic" />
 
-    <Button
-        android:id="@+id/toClassPage"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="430dp"
-        android:onClick="toClassPage"
-        android:text="Class" />
-    
-    <Button
-        android:id="@+id/toViewPagerTest"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="430dp"
-        android:onClick="toClassPage"
-        android:text="test" />
+        
 </FrameLayout>
+
+
+
+
+
+
+
+
+
+
+
+
