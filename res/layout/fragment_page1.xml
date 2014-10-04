@@ -11,21 +11,12 @@
 	    android:orientation="vertical">
     
 	    <com.dtf.hellobeacon.views.CustomTextView
-	        android:padding="16dp"
-	        android:textSize="32sp"
-	        android:textStyle="bold"
-	        android:lineSpacingMultiplier="1.2"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
+	        style="@style/HelpTextTitle"
 			customfontdemo:fontName="OpenSans-Regular.ttf"
 	        android:text="@string/step1_title" />
 	    
 	    <com.dtf.hellobeacon.views.CustomTextView
-	        android:padding="16dp"
-	        android:textSize="28sp"
-	        android:lineSpacingMultiplier="1.1"
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
+	        style="@style/HelpTextBody"
 			customfontdemo:fontName="OpenSans-Regular.ttf"
 	        android:text="@string/step1" />
 	    

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 	
     <!-- BASE THEME -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
@@ -29,7 +29,6 @@
         <item name="android:titleTextStyle">@style/TitleTextStyle</item>
         <item name="android:icon">@drawable/logo</item>
         <item name="android:displayOptions">showHome|useLogo</item>
-        
     </style>
     
     <!-- Actionbar text styles -->
@@ -101,6 +100,25 @@
         <item name="android:progressDrawable">@drawable/horizontal_progress_drawable</item>
     </style>
 
+    <style name="HelpTextTitle">
+    	<item name="android:padding">16dp</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/darkblue</item>
+    </style>
+    
+    <style name="HelpTextBody">
+    	<item name="android:padding">16dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/darkgray</item>
+    </style>
+    
+    
 </resources>
 
 

@@ -50,7 +50,7 @@
             ProgressWheel:rimColor="@color/lightgray"
             ProgressWheel:rimWidth="3dp"
             ProgressWheel:textColor="@color/darkblue"
-            ProgressWheel:textSize_value="80sp"
+            ProgressWheel:textSize_value="85sp"
             ProgressWheel:textSize_label="15sp"
             ProgressWheel:valuetext="0" />
         

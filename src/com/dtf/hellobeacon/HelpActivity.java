@@ -10,6 +10,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.dtf.hellobeacon.fragment.ScreenSlidePageFragment;
 import com.example.hellobeacon.R;
@@ -81,11 +82,13 @@ public class HelpActivity extends FragmentActivity {
 
 		case R.id.action_next:
 						
-			//if on the last page
+			//if on the last page (Finish Button)
 			if(mPager.getCurrentItem()+1 == mPagerAdapter.getCount()){
+				
 				Intent i = new Intent(this, HomeActivity.class);
 				finish();
 				startActivity(i);
+			
 			}else{
 				// Advance to the next step in the wizard. If there is no next step,
 				// setCurrentItem
@@ -114,5 +117,11 @@ public class HelpActivity extends FragmentActivity {
 		public int getCount() {
 			return NUM_PAGES;
 		}
+	}
+	
+	public void toHomeActivity(View v) {
+		Intent i = new Intent(this, HomeActivity.class);
+		finish();
+		startActivity(i);
 	}
 }

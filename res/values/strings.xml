@@ -12,7 +12,7 @@
         <item>Athlon Fitness and Performance</item>
     </string-array>
     
-    <string name="action_previous">Previous</string>
+    <string name="action_previous">Prev</string>
     <string name="action_next">Next</string>
     <string name="action_finish">Finish</string>
     
@@ -22,7 +22,7 @@
     <string name="step4_title">4. Tracking Visits</string>
     
     <string name="step1">Register for the app using the same email address used for your gym membership</string>
-    <string name="step2">Check-In for gym visits by walking through the gym entrance with your phone on and bluetooth enabled.</string>
+    <string name="step2">Check-In for gym visits by walking through the gym entrance with your phone on and bluetooth enabled</string>
     <string name="step3">The home screen displays the current capacity level of your gym</string>
     <string name="step4">Stay on top of your fitness goals by checking the My Stats screen</string>
     
