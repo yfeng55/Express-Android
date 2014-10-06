@@ -90,37 +90,48 @@ public class MyStatsActivity extends Activity {
 				month_visits = 0;
 				ytd_visits = 0;
 				
-				
-				String list_items = snapshot.getValue().toString();
-				String[] list_values = list_items.split(",");
-				
 				Long t, last_t=(long) 0;
-				int i = 1;
-				for (String s : list_values){
+				
+				try{
 					
-					//store a string of just the time value
-					String e = s.substring(s.lastIndexOf("=") + 1, s.lastIndexOf("=") + 14);
-					t = Long.valueOf(e).longValue();
+					String list_items = snapshot.getValue().toString();
+					String[] list_values = list_items.split(",");
 					
-					if(t > last_t){
-						last_t = t;
+					//Long t, last_t=(long) 0;
+					int i = 1;
+				
+					for (String s : list_values){
+						
+						//store a string of just the time value
+						String e = s.substring(s.lastIndexOf("=") + 1, s.lastIndexOf("=") + 14);
+						t = Long.valueOf(e).longValue();
+						
+						if(t > last_t){
+							last_t = t;
+						}
+						
+						//increment the appropriate progress values
+						if(t >= DateUtil.getWeekStart()){
+							week_visits = Math.min(week_visits+1, 7);
+							month_visits = Math.min(month_visits+1, 30);
+							ytd_visits = Math.min(ytd_visits+1, 365);
+						}
+						else if(t >= DateUtil.getMonthStart()){
+							month_visits = Math.min(month_visits+1, 30);
+							ytd_visits = Math.min(ytd_visits+1, 365);
+						}
+						else if(t >= DateUtil.getYearStart()){
+							ytd_visits = Math.min(ytd_visits+1, 365);
+						}
+						
 					}
-					
-					//increment the appropriate progress values
-					if(t >= DateUtil.getWeekStart()){
-						week_visits = Math.min(week_visits+1, 7);
-						month_visits = Math.min(month_visits+1, 30);
-						ytd_visits = Math.min(ytd_visits+1, 365);
-					}
-					else if(t >= DateUtil.getMonthStart()){
-						month_visits = Math.min(month_visits+1, 30);
-						ytd_visits = Math.min(ytd_visits+1, 365);
-					}
-					else if(t >= DateUtil.getYearStart()){
-						ytd_visits = Math.min(ytd_visits+1, 365);
-					}
-					
 				}
+				catch(NullPointerException e){
+					week_visits = 0;
+					month_visits = 0;
+					ytd_visits = 0;
+				}
+				
 				
 				//hide the loading spinner before displaying content
 				spinner.setVisibility(View.GONE);
@@ -131,9 +142,14 @@ public class MyStatsActivity extends Activity {
 				monthvisitsTV.setText(Integer.toString(month_visits) + " Visits");
 				ytdvisitsTV.setText(Integer.toString(ytd_visits) + " Visits");
 				
-				df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
-				Date date = new Date(Long.valueOf(last_t).longValue());
-				lastvisitTV.setText(df.format(date));
+				if(last_t != 0){
+					df = new SimpleDateFormat("MM/dd/yyyy K:mm a");
+					Date date = new Date(Long.valueOf(last_t).longValue());
+					lastvisitTV.setText(df.format(date));
+				}else{
+					lastvisitTV.setText("No Visits Yet");
+				}
+				
 
 				//animate progress bars (setting max values higher and multiplying final values for a smoother animation)
 				weekProgress.setMax(700);

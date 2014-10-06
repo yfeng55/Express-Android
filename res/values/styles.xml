@@ -118,6 +118,20 @@
         <item name="android:textColor">@color/darkgray</item>
     </style>
     
+    <style name="RegistrationText">
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/darkgray</item>
+    </style>
+    
+    <style name="RegistrationEditText">
+    	<item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">15</item>
+        <item name="android:inputType"></item>
+    </style>
     
 </resources>
 

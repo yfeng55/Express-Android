@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:customfontdemo="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -8,14 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible" >
+        android:visibility="visible"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" >
 
-        <TextView
+        <com.dtf.hellobeacon.views.CustomTextView
             android:id="@+id/label01"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="First Name:" />
+            style="@style/RegistrationText"
+            android:text="First Name:"
+            customfontdemo:fontName="OpenSans-Regular.ttf" />
 
         <EditText
             android:id="@+id/et_firstname"
@@ -24,12 +26,11 @@
             android:ems="15"
             android:inputType="" />
 
-        <TextView
+        <com.dtf.hellobeacon.views.CustomTextView
             android:id="@+id/label02"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Last Name:" />
+            style="@style/RegistrationText"
+            android:text="Last Name:"
+            customfontdemo:fontName="OpenSans-Regular.ttf" />
 
         <EditText
             android:id="@+id/et_lastname"
@@ -38,12 +39,11 @@
             android:ems="15"
             android:inputType="" />
 
-        <TextView
+        <com.dtf.hellobeacon.views.CustomTextView
             android:id="@+id/label03"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Email:" />
+            style="@style/RegistrationText"
+            android:text="Email:"
+            customfontdemo:fontName="OpenSans-Regular.ttf" />
 
         <EditText
             android:id="@+id/et_email"
@@ -51,7 +51,13 @@
             android:layout_height="wrap_content"
             android:ems="15"
             android:inputType="" />
-
+		
+        <com.dtf.hellobeacon.views.CustomTextView
+            android:id="@+id/gymlabel"
+            style="@style/RegistrationText"
+            android:text="Gym:"
+            customfontdemo:fontName="OpenSans-Regular.ttf" />
+        
         <Spinner
             android:id="@+id/spinner_gyms"
             android:layout_width="match_parent"
@@ -59,15 +65,30 @@
             android:layout_marginTop="15dp"
             android:entries="@array/gyms_array"
             android:prompt="@string/gym_prompt" />
-
+        
         <Button
             android:id="@+id/b_register"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/flat_selector"
             android:onClick="register"
-            android:text="Register" />
+            android:text="Register"
+            android:textColor="@color/darkgray" />
+        
         
     </LinearLayout>
 
 </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+
+

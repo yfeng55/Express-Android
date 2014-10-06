@@ -15,7 +15,7 @@
         android:textColor="@color/darkgray"
         android:gravity="center"
         android:text="Gym Name"
-        customfontdemo:fontName="OpenSans-Semibold.ttf" />
+        customfontdemo:fontName="OpenSans-Regular.ttf" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
